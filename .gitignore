@@ -18,7 +18,6 @@ tracker/ex_*
 *.old
 telemetry.txt
 gps.txt
-prediction.txt
 take_pic*
 convert*
 *.bin
