@@ -1,4 +1,4 @@
-# Generic makefile, thanks to RJH
+# Generic makefile, thanks to RJH 
 
 SRC=$(wildcard *.c)
 HED=$(wildcard *.h)
