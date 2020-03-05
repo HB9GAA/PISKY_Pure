@@ -1,13 +1,12 @@
 # PITS - very small HAB Tracker software for the GNSS/LoRa boards from ELcon #
 
-Created by Roland Elmiger (hb9gaa@arrl.net)
+Created by Roland Elmiger (hb9gaa@arrl.net). Some program parts have been taken over by Dave Ackerman.
 
 This software is written for the GNSS/LoRa board with Pi Zero W board.
 The GNSS/LoRa board can be purchased from board from http://https://shop.elcon.ch
 Software support is provided for customers who have purchased a GNSS/LoRa board, for use with that board only.
 
 ## Installation ##
-
 Follow the instructions at http://www.pi-in-the-sky.com/index.php?id=sd-card-image-from-scratch
 
 ## USB Camera ##
@@ -21,7 +20,7 @@ and you need to edit /boot/pisky.txt and change the "camera" line to be:
 
 (G/g are for gphoto2, U/F/u/f for fswebcam; N/n is for no camera, Y/y/1/TC/c is for CSI camera).
 
-The camera must be able to support remote capture as well as image download, and this excludes a large number of cameras in particular all Canon compacts since 2009.
+The camera must be able to support remote capture as well as image download.
 There's a list of cameras at http://www.gphoto.org/doc/remote/.
 
 The image resolution is not controlled so you should set this up in the camera.  The full image files are stored on Pi SD card, so ensure that it has sufficient free capacity.
