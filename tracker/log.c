@@ -41,5 +41,5 @@ void *LogLoop(void *some_void_ptr)
 		sleep(Config.TelemetryFileUpdate);
 	}
 
-	return 0;
+	return 0; 
 }
