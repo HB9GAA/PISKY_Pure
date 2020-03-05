@@ -1,6 +1,6 @@
-# PITS - HAB Tracker software for the PITS boards #
+# PITS - very small HAB Tracker software for the GNSS/LoRa boards from ELcon #
 
-Created by Dave Akerman (dave@sccs.co.uk)
+Created by Roland Elmiger (hb9gaa@arrl.net)
 
 This software is written for the PITS Zero with Pi Zero, PITS+ with the various A+/B+ models, and the original PITS with the Pi A/B boards.
 
