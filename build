@@ -1,4 +1,4 @@
-# Build tracker program
+# Build tracker program 
 echo Building tracker ...
 cd tracker
 make
