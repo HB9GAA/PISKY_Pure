@@ -9,14 +9,14 @@ typedef enum {lmIdle, lmListening, lmSending} tLoRaMode;
 typedef enum {ptNormal, ptCallingMode, ptBalloonRepeat, ptUplinkRepeat} tPacketType;
 
 struct TLoRaDevice
-{
+	{
 	int InUse;
 	int DIO0;
 	int DIO5;
 	int CS;
 	int RST;
 	char Frequency[8];
-    float PPM;
+  float PPM;
 	int SpeedMode;
 	int Power;
 	int PayloadLength;
@@ -43,10 +43,10 @@ struct TLoRaDevice
 	int UplinkRepeatLength;
 	tPacketType SendPacketType;
 	tLoRaMode LoRaMode;
-    int SendingRTTY;
+  int SendingRTTY;
 	char CallingFrequency[8];
 	int CallingCount;
-    int CallingSlot;
+  int CallingSlot;
 	int PacketsSinceLastCall;
 	int ReturnStateAfterCall;
 	
@@ -72,41 +72,21 @@ struct TLoRaDevice
 	int PacketCount;
 	int ListenOnly;					// True for listen-only payload that waits for an uplink before responding (or times out and sends anyway)
     
-    // RTTY settings
-    int RTTYBaudRate;
-    double RTTYFrequency;
-    int RTTYShift;
-    int RTTYCount;
-    int RTTYEvery;
-    int RTTYPacketIndex;
-    int RTTYBitLength;
-    int InRTTYMode;
-    unsigned int FSKBitRate;
-    int FSKOverSample;
-	char RTTYBuffer[256];
-    int RTTYIndex;
-    int RTTYMask;
-    int RTTYLength;
-    int RTTYPreamble;
-	
-#	ifdef EXTRAS_PRESENT
-#		include "ex_misc_lora.h"
-#	endif		
-};
+	};
 
 struct TSSDVPackets
-{
+	{
 	int ImageNumber;
 	int NumberOfPackets;
 	int InUse;
 	unsigned char Packets[MAX_SSDV_PACKETS];
-};
+	};
 
 struct TRecentPacket
-{
+	{
 	int ImageNumber;
 	int PacketNumber;
-};
+	};
 
 // Structure for all possible radio devices
 // 0 is RTTY
@@ -115,7 +95,7 @@ struct TRecentPacket
 // 4 is a pretend channel for full-size images only
 // 5 is for piping data to an external program (e.g. for sending as SMS or directly connecting to habitat)
 struct TChannel
-{
+	{
 	int Enabled;
 	unsigned int SentenceCounter;
 	char PayloadID[16];
@@ -152,7 +132,7 @@ struct TChannel
 	
 	// SSDV Packet Log
 	struct TSSDVPackets SSDVPackets[3];
-};
+	};
 
 #define RTTY_CHANNEL 0
 #define APRS_CHANNEL 1
@@ -161,7 +141,7 @@ struct TChannel
 #define PIPE_CHANNEL 5
 
 struct TConfig
-{
+	{
 	// Misc settings
 	int DisableMonitor;
 	int InfoMessageCount;
@@ -178,22 +158,20 @@ struct TConfig
 	char SSDVSettings[16];
 	
 	// Extra devices
-	int EnableBMP085;
-	int EnableBME280;
-    int EnableMS5611;
 	int ExternalDS18B20;
 	
 	// Logging
 	int EnableGPSLogging;
 	int EnableTelemetryLogging;
 	int TelemetryFileUpdate;		// Period in seconds
+															//added by HB9GAA
+	int UNIXformat;						//UNIXformat = 0 -> hh:mm:ss or UNIXformat = 1 -> UNIX-Time 
 	
 	// LEDs
 	int LED_OK;
 	int LED_Warn;
 	
 	// GPS Settings
-	int GPSModel;
 	int ShowGPS;
 	int SDA;
 	int SCL;
@@ -226,29 +204,17 @@ struct TConfig
 	char GPSSource[128];
 	int Power_Saving;
 	int Flight_Mode_Altitude;
-	
-	// Landing prediction
-	int EnableLandingPrediction;
-	int32_t TargetAltitude;
-	
-	float cd_area;
-	float payload_weight;
-	char PredictionID[16];
-	
+		
 	// External data file (read into telemetry)
 	char ExternalDataFileName[100];
     
-    int BlinkenLight;
-    int FlashBelow;
-    int Flashing;
-	    
-    int PiezoPin;
-    int WhistleBelow;
-	
-#	ifdef EXTRAS_PRESENT
-#		include "ex_misc_config.h"
-#	endif		
-};
+	int BlinkenLight;
+	int FlashBelow;
+	int Flashing;
+		
+	int PiezoPin;
+	int WhistleBelow;
+	};
 
 extern struct TConfig Config;
 
