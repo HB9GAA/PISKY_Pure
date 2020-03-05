@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
  function disable_bt {
             echo "Detected Raspberry Pi 3...Disabling Bluetooth"
             if grep -q pi3-disable-bt "/boot/config.txt"; then
