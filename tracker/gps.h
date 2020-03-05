@@ -3,7 +3,7 @@
 typedef enum {fmIdle, fmLaunched, fmDescending, fmHoming, fmDirect, fmDownwind, fmUpwind, fmLanding, fmLanded} TFlightMode;
 
 struct TGPS
-{
+	{
 	// GPS
 	long SecondsInDay;					// Time in seconds since midnight
 	int Hours, Minutes, Seconds;
@@ -16,13 +16,12 @@ struct TGPS
 	
 	// Calculated from GPS
 	int32_t MaximumAltitude, MinimumAltitude;
-    double BurstLatitude, BurstLongitude;
+  double BurstLatitude, BurstLongitude;
 	float AscentRate;
 	
 	// Sensors
 	float DS18B20Temperature[2];
 	float BatteryVoltage;
-	float BMP180Temperature;
 	float Humidity;
 	float Pressure;
 	float BoardCurrent;
@@ -31,32 +30,11 @@ struct TGPS
 	// Flight control
 	TFlightMode FlightMode;
 	
-	// Prediction
-	double PredictedLongitude, PredictedLatitude;
-	float PredictedLandingSpeed;
-	int TimeTillLanding;
-	float CDA;
-		
-	// int FlightMode;
-	// int PowerMode;
-	// int Lock;
 	unsigned int MessageCount;
-
-#	ifdef EXTRAS_PRESENT
-#		include "ex_gps.h"
-#	endif		
-};
+	};
 
 
 // functions
-
 void *GPSLoop(void *some_void_ptr);
 
-
-#ifdef EXTRAS_PRESENT
-void gps_postprocess_position(struct TGPS *GPS, int ActionMask, float latitude, float longitude);
-void gps_flight_modes(struct TGPS *GPS);
-
-void cutdown_checks(struct TGPS *GPS);
-#endif	
 
