@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 cd /home/pi/pits/tracker
 ./send_aprs &
 echo none | sudo tee /sys/class/leds/led0/trigger
