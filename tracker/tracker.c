@@ -1,20 +1,14 @@
-/*------------------------------------------------------------------\
-|                                                                   |
-|                PI IN THE SKY TRACKER PROGRAM                      |
-|                                                                   |
-| This program is written for the Pi Telemetry Board                |
-| produced by HAB Supplies Ltd.  No support is provided             |
-| for use on other hardware. It does the following:                 |
-|                                                                   |
-| 1 - Sets up the hardware including putting the GPS in flight mode |
-| 2 - Reads the current temperature                                 |
-| 3 - Reads the current battery voltage                             |
-| 4 - Reads the current GPS position                                |
-| 5 - Builds a telemetry sentence to transmit                       |
-| 6 - Sends it to the MTX2/NTX2B radio transmitter                  |
-| 7 - repeats steps 2-6                                             |
-|                                                                   |
-\------------------------------------------------------------------*/
+// PI IN THE SKY TRACKER PROGRAM
+//----------------------------------------------------------------------------
+// This program is written for the Pi GNSS/LoRa Board
+// produced by ELcon Consulting & Engineering.  
+// No support is provided for use on other hardware. 
+// It does the following:                 |
+// 1 - Sets up the hardware including putting the GPS in flight mode
+// 2 - Reads the current temperature
+// 3 - Reads the current GPS position
+// 5 - Builds a telemetry sentence to transmit
+// 6 - repeats steps 2-6
 
 #include <unistd.h>
 #include <sys/types.h>
