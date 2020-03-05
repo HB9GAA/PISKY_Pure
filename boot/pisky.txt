@@ -1,38 +1,31 @@
-payload=CHANGEME
-disable_monitor=N
-frequency=434.250
-baud=300
+payload=YOUR CALL
+disable_monitor=Y
+
 camera=Y
+
 low_width=320
 low_height=240
-high=2000
+
+high=100
 high_width=640
 high_height=480
-image_packets=4
-enable_bmp085=N
-external_temperature=1
-adc_vmax=18.5
-logging=GPS,Telemetry
-Disable_RTTY=N
-info_messages=2
 
-full_low_width=640
+image_packets=4
+external_temperature=1
+logging=GPS,Telemetry
+
+#If UNIX_time is activated, the UNIX time is used instead of the time format hh:mm:ss
+UNIXformat=1 
+
+full_low_width=640 
 full_low_height=480
+
 # 0 in either of the following tells the software to use full resolution from the Pi camera
 full_high_width=0
 full_high_height=0
-full_image_period=60
+full_image_period=600
 
-#APRS_Callsign=CHANGE
-APRS_ID=11
-APRS_Period=1
-APRS_Random=5
-
-#LORA_Frequency_0=434.225
-#LORA_Payload_0=CHANGEME
-#LORA_Mode_0=0
-
-#LORA_Frequency_1=434.275
-#LORA_Payload_1=CHANGEME
-#LORA_Mode_1=1
-
+LORA_Frequency_0=434.400
+LORA_Payload_0=YOUR CALL
+LORA_Mode_0=1
+LORA_PPM_0=-6.2
