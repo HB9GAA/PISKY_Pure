@@ -2,18 +2,15 @@
 
 Created by Roland Elmiger (hb9gaa@arrl.net)
 
-This software is written for the PITS Zero with Pi Zero, PITS+ with the various A+/B+ models, and the original PITS with the Pi A/B boards.
-
-PITS Zero and PITS+ can be purchased from board from http://ava.upuaut.net/store/.
-
-Software support is provided for customers who have purchased a PITS, PITS Zero or PITS+ board, for use with that board only.
+This software is written for the GNSS/LoRa board with Pi Zero W board.
+The GNSS/LoRa board can be purchased from board from http://https://shop.elcon.ch
+Software support is provided for customers who have purchased a GNSS/LoRa board, for use with that board only.
 
 ## Installation ##
 
 Follow the instructions at http://www.pi-in-the-sky.com/index.php?id=sd-card-image-from-scratch
 
 ## USB Camera ##
-
 To use a USB camera (i.e. a compact or SLR) instead of the Pi camera, you need to install gphoto2 and imagemagick:
 
 	sudo apt-get install gphoto2 imagemagick
