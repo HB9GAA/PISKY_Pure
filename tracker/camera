@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 echo Camera script ...
 
 cd /home/pi/pits/tracker
