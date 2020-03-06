@@ -93,9 +93,6 @@ sudo apt-get install ssdv
 echo -e "\n\nInstalling Pi in the Sky Software"
 echo "================================="
 sleep 3
-cd
-git clone https://github.com/HB9GAA/PISKY_Pure.git
 cd PISKY_Pure
 ./build
 cd ~/PISKY_Pure/tracker
-
