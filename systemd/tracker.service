@@ -2,7 +2,7 @@
 Description=PITS Tracker Service
  
 [Service]
-ExecStart=/home/pi/pits/tracker/startup
+ExecStart=/home/pi/PISKY_Pure/tracker/startup
 StandardOutput=null
  
 [Install]
