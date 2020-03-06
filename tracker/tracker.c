@@ -49,7 +49,7 @@ struct TConfig Config;
 
 int Records, FileNumber;
 struct termios options;
-char *SSDVFolder="/home/pi/pits/tracker/images";
+char *SSDVFolder="/home/pi/PISKY_Pure/tracker/images";
  
 
 void LoadConfigFile(struct TConfig *Config)
