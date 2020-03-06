@@ -73,7 +73,6 @@ esac
 echo -e "\n\nInstalling PiGPIO"
 echo "================="
 sleep 3
-
 cd
 wget abyz.me.uk/rpi/pigpio/pigpio.zip
 unzip pigpio.zip
@@ -84,22 +83,16 @@ sudo make install
 echo -e "\n\nInstalling Wiring Pi"
 echo "===================="
 sleep 3
-cd
-git clone git://git.drogon.net/wiringPi
-cd wiringPi
-./build
+sudo apt-get install wiringpi
 
 echo -e "\n\nInstalling SSDV"
 echo "==============="
 sleep 3
-cd
-git clone https://github.com/fsphil/ssdv.git
-cd ssdv
-sudo make install
+sudo apt-get install ssdv
 
 echo -e "\n\nInstalling Pi in the Sky Software"
 echo "================================="
-
+sleep 3
 cd
 git clone https://github.com/HB9GAA/PISKY_Pure.git
 cd PISKY_Pure
