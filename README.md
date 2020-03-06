@@ -1,4 +1,4 @@
-# PITS - very small HAB Tracker software for the GNSS/LoRa boards from ELcon #
+# PISKY_Pure - a very small HAB Tracker software for the GNSS/LoRa boards from ELcon #
 
 Created by Roland Elmiger (hb9gaa@arrl.net). Some program parts have been taken over by Dave Ackerman.
 
