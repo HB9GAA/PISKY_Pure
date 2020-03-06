@@ -211,7 +211,7 @@ void *CameraLoop(void *some_void_ptr)
 					if ((width >= 0) && (height >= 0))
 						{
 						// Create name of file
-						sprintf(filename, "/home/pi/pits/tracker/take_pic_%d", Channel);
+						sprintf(filename, "/home/pi/PISKY_Pure/tracker/take_pic_%d", Channel);
 						
 						// Leave it alone if it exists (this means that the photo has not been taken yet)
 						if (access(filename, F_OK ) == -1)
