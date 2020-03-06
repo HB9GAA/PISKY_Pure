@@ -75,7 +75,7 @@ echo "================="
 sleep 3
 
 cd
-wget abyz.co.uk/rpi/pigpio/pigpio.zip
+wget abyz.me.uk/rpi/pigpio/pigpio.zip
 unzip pigpio.zip
 cd PIGPIO
 make
