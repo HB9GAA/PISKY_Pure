@@ -101,5 +101,8 @@ echo -e "\n\nInstalling Pi in the Sky Software"
 echo "================================="
 
 cd
-cd pits
+git clone https://github.com/HB9GAA/PISKY_Pure.git
+cd PISKY_Pure
 ./build
+cd ~/PISKY_Pure/tracker
+
