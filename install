@@ -11,11 +11,8 @@
            }
 
 
-echo "Pi in the Sky - Installation"
-echo "----------------------------"
-sleep 2
-
-echo -e "\n\nInstalling git..."
+echo "PISKY_Pure - Installation"
+echo "-------------------------"
 sleep 1
 
 echo -e "\n\nSetting up serial ports..."
@@ -41,37 +38,30 @@ case "$rev" in
             ;;
 esac
 
-read -rp $'\n\nDo you want to enable the camera? [Y,n]' choice 
-case $choice in  
-  n|N) ;;
-  *) sudo raspi-config nonint do_camera 0 ;; 
-esac
+echo -e "\n Camera support is enabled"
+sleep 1
+sudo raspi-config nonint do_onewire 0 #Default
 
-read -rp $'\n\nAre you using Lora transmisssion? [Y,n]' choice 
-case $choice in  
-  n|N) ;;
-  *) sudo raspi-config nonint do_spi 0 ;; 
-esac
+echo -e "\nLora transmisssion is enabled"
+sleep 1
+sudo raspi-config nonint do_spi 0 #Default
 
-read -rp $'\n\nEnable I2C? [Y,n]' choice
-case $choice in  
-  n|N) ;;
-  *) sudo raspi-config nonint do_i2c 0 ;; 
-esac
+echo -e "\nI2C is enabled"
+sleep 1
+sudo raspi-config nonint do_i2c 0 #Default
 
-read -rp $'\n\nAre you using a USB Webcam[y,N]' choice 
+read -rp $'\nAre you using a USB Webcam[y,N]' choice 
 case $choice in  
   n|N) ;;
   *) 
       echo "Installing fswebcam"
-      echo "==================="
+      echo "-------------------"
       sleep 1
       sudo apt-get install fswebcam ;; 
 esac
 
-
-echo -e "\n\nInstalling PiGPIO"
-echo        "-----------------"
+echo -e "\nInstalling PiGPIO"
+echo      "-----------------"
 sleep 1
 cd
 wget abyz.me.uk/rpi/pigpio/pigpio.zip
@@ -80,18 +70,19 @@ cd PIGPIO
 make
 sudo make install
 
-echo -e "\n\nInstalling Wiring Pi"
-echo        "--------------------"
+echo -e "\nInstalling Wiring Pi"
+echo      "--------------------"
 sleep 1
 sudo apt-get install wiringpi
 
-echo -e "\n\nInstalling SSDV"
-echo        "---------------"
+echo -e "\nInstalling SSDV"
+echo      "---------------"
 sleep 1
 sudo apt-get install ssdv
+cd
 
-echo -e "\n\nInstalling Pi in the Sky Software"
-echo        "---------------------------------"
+echo -e "\nInstalling Pi in the Sky Software"
+echo      "---------------------------------"
 sleep 1
 cd ~/PISKY_Pure
 ./build
@@ -101,8 +92,8 @@ read -rp $'\n\nDo you want to edit your CALL in the file pisky.txt? [Y,n]' choic
 case $choice in  
   n|N) ;;
   *) 
-      echo "Öffnen des Datei pisky.txt"
-      echo "--------------------------"
+      echo "Open the file pisky.txt"
+      echo "-----------------------"
       sleep 1
       sudo nano /boot/pisky.txt;; 
 esac
