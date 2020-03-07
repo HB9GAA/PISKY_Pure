@@ -14,8 +14,8 @@ Follow the instructions:
 - Choose the SD card you wish to write your image to. <br>
 - Review your selections and click 'WRITE' to begin writing data to the SD card.<br><br>
 - Open the "boot" directory, and create an empty file named "ssh".<br><br>
-- In order to connect the Raspberry Pi to a WLAN router (hotspot), it has to know the SSID and the passphrase (password) of your router.<br>
- These WLAN log-in information can be entered by starting the configuration tool "RaspiBrickConfig.jar"<br>
+- In order to connect the Raspberry Pi to a WLAN router (hotspot), it has to know the SSID and the passphrase (password)<br>
+ of your router. These WLAN log-in information can be entered by starting the configuration tool "RaspiBrickConfig.jar"<br>
  You must copy this tool into the "boot" directory before you start it.<br>
  
 
