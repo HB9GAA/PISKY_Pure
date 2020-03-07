@@ -1,6 +1,6 @@
 #!/bin/bash 
  function disable_bt {
-            echo "Detected Raspberry Pi 3...Disabling Bluetooth"
+            echo "Disabling Bluetooth"
             if grep -q pi3-disable-bt "/boot/config.txt"; then
                 echo 'Bluetooth Disabled'
             else
@@ -15,13 +15,11 @@ echo "PISKY_Pure - Installation"
 echo "-------------------------"
 sleep 1
 
-echo -e "\n\nSetting up serial ports..."
-sleep 1
+echo -e "\nSetting up serial ports..."
 sudo systemctl mask serial-getty@ttyAMA0.service
 sudo sed -e "s/console=serial0,115200//g" -i.backup /boot/cmdline.txt
 
-echo -e "\n\nEnabling OneWire support..."
-sleep 1
+echo -e "\nOneWire enabled"
 sudo raspi-config nonint do_onewire 0 #Default
 
 rev=$(cat /proc/cpuinfo|grep Revision|awk -F: '$0=$2'|tr -d ' ' )
@@ -38,17 +36,14 @@ case "$rev" in
             ;;
 esac
 
-echo -e "\n Camera support is enabled"
-sleep 1
-sudo raspi-config nonint do_onewire 0 #Default
+echo -e "\nCamera support is enabled"
+sudo raspi-config nonint do_onewire 0
 
 echo -e "\nLora transmisssion is enabled"
-sleep 1
-sudo raspi-config nonint do_spi 0 #Default
+sudo raspi-config nonint do_spi 0
 
 echo -e "\nI2C is enabled"
-sleep 1
-sudo raspi-config nonint do_i2c 0 #Default
+sudo raspi-config nonint do_i2c 0
 
 read -rp $'\nAre you using a USB Webcam[y,N]' choice 
 case $choice in  
@@ -56,13 +51,11 @@ case $choice in
   *) 
       echo "Installing fswebcam"
       echo "-------------------"
-      sleep 1
       sudo apt-get install fswebcam ;; 
 esac
 
 echo -e "\nInstalling PiGPIO"
 echo      "-----------------"
-sleep 1
 cd
 wget abyz.me.uk/rpi/pigpio/pigpio.zip
 unzip pigpio.zip
@@ -72,18 +65,15 @@ sudo make install
 
 echo -e "\nInstalling Wiring Pi"
 echo      "--------------------"
-sleep 1
 sudo apt-get install wiringpi
 
 echo -e "\nInstalling SSDV"
 echo      "---------------"
-sleep 1
 sudo apt-get install ssdv
 cd
 
 echo -e "\nInstalling Pi in the Sky Software"
 echo      "---------------------------------"
-sleep 1
 cd ~/PISKY_Pure
 ./build
 cd ~/PISKY_Pure/tracker
@@ -92,8 +82,5 @@ read -rp $'\n\nDo you want to edit your CALL in the file pisky.txt? [Y,n]' choic
 case $choice in  
   n|N) ;;
   *) 
-      echo "Open the file pisky.txt"
-      echo "-----------------------"
-      sleep 1
       sudo nano /boot/pisky.txt;; 
 esac
