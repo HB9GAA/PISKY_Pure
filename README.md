@@ -46,7 +46,7 @@ Use the following command to load the PISKY_Pure software onto your Raspberry Pi
 	cd
 	git clone https://github.com/HB9GAA/PISKY_Pure.git
 	cd PISKY_Pure
-	sudo ./install
+	./install
 
 Follow the information that will guide you through the various installations.
 
