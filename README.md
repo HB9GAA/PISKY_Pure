@@ -24,9 +24,9 @@ Eject the SD card from your computer and insert it into your Pi. <br>
 Power up your Pi (we recommend an official power supply) and wait a few moments for the initial boot to complete.<br>
 On your computer, open up PuTTY.
 
-We know that the default hostname (the name of the machine) for a fresh Raspbian install is raspberrypi, 
+We know that the default hostname (the name of the machine) for a fresh Raspbian install is <b>raspberrypi</b>, 
 so in the Host Name (or IP address) field enter raspberrypi. This searches for machines on that name on the local network. 
-Once a connection is established, you'll be prompted by PuTTY to accept the connection to the new machine. You should see a black terminal prompting for a login. Enter the default username: pi and the default password: raspberry
+Once a connection is established, you'll be prompted by PuTTY to accept the connection to the new machine. You should see a black terminal prompting for a login. Enter the default username: <b>pi</b> and the default password: <b>raspberry</b>
 
 If it's been a while since the image was downloaded, we can update the software on the Raspi again:
 
