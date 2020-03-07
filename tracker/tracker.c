@@ -360,7 +360,7 @@ int main(void)
 		remove("gps.txt");
 		remove("telemetry.txt");
 		remove("/boot/clear.txt");
-		system("rm -rf /home/pi/pits/tracker/images/*");
+		system("rm -rf /home/pi/PISKY_Pure/tracker/images/*");
 		}
 		
 	// Remove any old SSDV files
