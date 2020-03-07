@@ -12,7 +12,7 @@
 
 
 echo "Pi in the Sky - Installation"
-echo "============================"
+echo "----------------------------"
 sleep 2
 
 echo -e "\n\nInstalling git..."
@@ -65,14 +65,14 @@ case $choice in
   *) 
       echo "Installing fswebcam"
       echo "==================="
-      sleep 3
+      sleep 1
       sudo apt-get install fswebcam ;; 
 esac
 
 
 echo -e "\n\nInstalling PiGPIO"
-echo "================="
-sleep 3
+echo        "-----------------"
+sleep 1
 cd
 wget abyz.me.uk/rpi/pigpio/pigpio.zip
 unzip pigpio.zip
@@ -81,18 +81,28 @@ make
 sudo make install
 
 echo -e "\n\nInstalling Wiring Pi"
-echo "===================="
-sleep 3
+echo        "--------------------"
+sleep 1
 sudo apt-get install wiringpi
 
 echo -e "\n\nInstalling SSDV"
-echo "==============="
-sleep 3
+echo        "---------------"
+sleep 1
 sudo apt-get install ssdv
 
 echo -e "\n\nInstalling Pi in the Sky Software"
-echo "================================="
-sleep 3
-cd PISKY_Pure
+echo        "---------------------------------"
+sleep 1
+cd ~/PISKY_Pure
 ./build
 cd ~/PISKY_Pure/tracker
+
+read -rp $'\n\nDo you want to edit your CALL in the file pisky.txt? [Y,n]' choice 
+case $choice in  
+  n|N) ;;
+  *) 
+      echo "Öffnen des Datei pisky.txt"
+      echo "--------------------------"
+      sleep 1
+      sudo nano /boot/pisky.txt;; 
+esac
