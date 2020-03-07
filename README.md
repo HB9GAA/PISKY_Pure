@@ -1,13 +1,23 @@
-# PISKY_Pure - a very small HAB Tracker software for the GNSS/LoRa boards from ELcon #
+# PISKY_Pure - is a small HAB Tracker software <br> for the GNSS/LoRa boards from ELcon Consulting & Engineering #
 
-Created by Roland Elmiger (hb9gaa@arrl.net). Some program parts have been taken over by Dave Ackerman.
+Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>). Some program parts have been taken over by Dave Ackerman.
 
-This software is written for the GNSS/LoRa board with Pi Zero W board.
-The GNSS/LoRa board can be purchased from board from http://https://shop.elcon.ch
+This software is written for the special GNSS/LoRa board together with a Pi Zero W. <br>
+The GNSS/LoRa board can be purchased from <a href="http://https://shop.elcon.ch">ELcon-shop</a> <br>
 Software support is provided for customers who have purchased a GNSS/LoRa board, for use with that board only.
 
 ## Installation ##
-Follow the instructions at http://www.pi-in-the-sky.com/index.php?id=sd-card-image-from-scratch
+Follow the instructions:
+- Download the latest version of <a href="https://www.raspberrypi.org/downloads/">Raspberry Pi Imagerand</a> install it. <br>
+- Connect an SD card reader with the SD card inside. <br>
+- Open Raspberry Pi Imager and choose the OS RASBIAN LITE from the list presented. <br>
+- Choose the SD card you wish to write your image to. <br>
+- Review your selections and click 'WRITE' to begin writing data to the SD card.<br><br>
+- Open the "boot" directory, and create an empty file named "ssh".<br><br>
+- In order to connect the Raspberry Pi to a WLAN router (hotspot), it has to know the SSID and the passphrase (password) of your router.<br>
+ These WLAN log-in information can be entered by starting the configuration tool "RaspiBrickConfig.jar"<br>
+ You must copy this tool into the "boot" directory before you start it.<br>
+ 
 
 ## USB Camera ##
 To use a USB camera (i.e. a compact or SLR) instead of the Pi camera, you need to install gphoto2 and imagemagick:
