@@ -49,4 +49,9 @@ Use the following command to load the PISKY_Pure software onto your Raspberry Pi
 	./install
 
 Follow the information that will guide you through the various installations.
+At the end of the installation you should not forget to fill in your callsign in the file pisky.txt.
+Finally, the Raspberry Pi Zero W must be restarted with the following command
+
+	sudo reboot
+
 
