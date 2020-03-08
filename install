@@ -37,7 +37,7 @@ case "$rev" in
 esac
 
 echo -e "\nCamera support is enabled"
-sudo raspi-config nonint do_onewire 0
+sudo raspi-config nonint do_camera 0
 
 echo -e "\nLora transmisssion is enabled"
 sudo raspi-config nonint do_spi 0
