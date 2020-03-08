@@ -20,7 +20,7 @@ Follow the instructions:
  You must copy this tool into the "boot" directory before you start it.<br>
  In the dialog box enter your router SSID and the passphrase. Then click Create SSID and Save.
  
-<img scr="http://elcon.ch/download/RaspberryPi/raspibrick10.png" width=400><br>
+![image info](http://elcon.ch/download/RaspberryPi/raspibrick10.png)<br>
  
 The SD-card is now ready to be used in your Raspberry Pi Zero W (incl. GNSS/LoRa card mounted).<br>
 Eject the SD card from your computer and insert it into your Pi. <br>
