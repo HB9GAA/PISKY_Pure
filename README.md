@@ -20,12 +20,10 @@ Follow the instructions:
  You must copy this tool into the "boot" directory before you start it.<br>
  In the dialog box enter your router SSID and the passphrase. Then click Create SSID and Save.
  
-![test](http://elcon.ch/download/RaspberryPi/raspibrick10.png)<br>
- 
 The SD-card is now ready to be used in your Raspberry Pi Zero W (incl. GNSS/LoRa card mounted).<br>
 Eject the SD card from your computer and insert it into your Pi. <br>
 Power up your Pi (we recommend an official power supply) and wait a few moments for the initial boot to complete.<br>
-On your computer, open up PuTTY.
+On your computer, open up <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">PuTTY</a>.
 
 We know that the default hostname (the name of the machine) for a fresh Raspbian install is <b>raspberrypi</b>, 
 so in the Host Name (or IP address) field enter raspberrypi. This searches for machines on that name on the local network. 
