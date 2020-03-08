@@ -1,4 +1,4 @@
-# PISKY_Pure - is a small HAB Tracker software <br> for the GNSS/LoRa boards from ELcon Consulting & Engineering #
+# PISKY_Pure - is a small HAB Tracker software for the <br>GNSS/LoRa boards from ELcon Consulting & Engineering #
 
 Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>). 
 Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
@@ -42,7 +42,7 @@ To prepare the main user software we still have to install the following librari
 
 
 ## PISKY_Pure installation ##
-Follow the instructions:
+Follow the instructions:<br>
 Use the following command to load the PISKY_Pure software onto your Raspberry Pi Zero W.<br>
 
 	git clone https://github.com/HB9GAA/PISKY_Pure.git
