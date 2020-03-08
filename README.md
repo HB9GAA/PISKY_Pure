@@ -18,9 +18,8 @@ Follow the instructions:
 - In order to connect the Raspberry Pi to a WLAN router (hotspot), it has to know the SSID and the passphrase (password)<br>
  of your router. These WLAN log-in information can be entered by starting the configuration tool <a href="http://elcon.ch/download/RaspberryPi/RaspiBrickConfig.jar">RaspiBrickConfig.jar</a><br>
  You must copy this tool into the "boot" directory before you start it.<br>
- In the dialog box enter your router SSID and the passphrase. Then click Create SSID and Save.
- 
- <img src="/misc/raspibrick10.png" align="middle"><br>
+ In the dialog box enter your router SSID and the passphrase. Then click Create SSID and Save.<br>
+<img src="/misc/raspibrick10.png" align="middle"><br>
  
 The SD-card is now ready to be used in your Raspberry Pi Zero W (incl. GNSS/LoRa card mounted).<br>
 Eject the SD card from your computer and insert it into your Pi. <br>
