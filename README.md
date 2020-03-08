@@ -1,10 +1,11 @@
 # PISKY_Pure - is a small HAB Tracker software <br> for the GNSS/LoRa boards from ELcon Consulting & Engineering #
 
-Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>). Some program parts have been taken over by Dave Ackerman.
+Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>). 
+Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
 
-This software is written for the special GNSS/LoRa board together with a Pi Zero W. <br>
+This software is specially written for the GNSS/LoRa board and Raspberry Pi Zero W. <br>
 The GNSS/LoRa board can be purchased from <a href="http://https://shop.elcon.ch">ELcon-shop</a> <br>
-Software support is provided for customers who have purchased a GNSS/LoRa board, for use with that board only.
+<font color=#ff0000><b>The software does not work for all other boards!</font></b>
 
 ## OS installation ##
 Follow the instructions:
@@ -15,9 +16,11 @@ Follow the instructions:
 - Review your selections and click 'WRITE' to begin writing data to the SD card.<br><br>
 - Open the "boot" directory on the SD Card, and create an empty file named "ssh".<br><br>
 - In order to connect the Raspberry Pi to a WLAN router (hotspot), it has to know the SSID and the passphrase (password)<br>
- of your router. These WLAN log-in information can be entered by starting the configuration tool "RaspiBrickConfig.jar"<br>
+ of your router. These WLAN log-in information can be entered by starting the configuration tool <a href="http://elcon.ch/download/RaspberryPi/RaspiBrickConfig.jar">RaspiBrickConfig.jar</a><br>
  You must copy this tool into the "boot" directory before you start it.<br>
-- In the dialog box enter your router SSID and the passphrase. Then click Create SSID and Save.
+ In the dialog box enter your router SSID and the passphrase. Then click Create SSID and Save.
+ 
+<img scr="http://elcon.ch/download/RaspberryPi/raspibrick10.png" width=400><br>
  
 The SD-card is now ready to be used in your Raspberry Pi Zero W (incl. GNSS/LoRa card mounted).<br>
 Eject the SD card from your computer and insert it into your Pi. <br>
