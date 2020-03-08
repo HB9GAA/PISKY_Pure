@@ -8,6 +8,8 @@ The GNSS/LoRa board can be purchased from <a href="http://https://shop.elcon.ch"
 
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) ***The software does not work for all other boards!***
 
+<g-emoji class="g-emoji" alias="blush" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60a.png">😊</g-emoji>
+
 ## OS installation ##
 Follow the instructions:
 - Download the latest version of <a href="https://www.raspberrypi.org/downloads/">Raspberry Pi Imagerand</a> install it. <br>
