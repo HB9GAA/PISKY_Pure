@@ -31,6 +31,9 @@ case "$rev" in
         a22082)
             disable_bt
             ;;
+        9000c1)
+            sudo systemctl disable bluetooth.service
+            ;;
         *)
             echo "No bluetooth to disable"
             ;;
@@ -72,7 +75,7 @@ echo      "---------------"
 sudo apt-get install ssdv
 cd
 
-echo -e "\nInstalling Pi in the Sky Software"
+echo -e "\nInstalling PISKY_Pure Firmware"
 echo      "---------------------------------"
 cd ~/PISKY_Pure
 ./build
