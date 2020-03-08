@@ -5,7 +5,7 @@ Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
 
 This software is specially written for the GNSS/LoRa board and Raspberry Pi Zero W. <br>
 The GNSS/LoRa board can be purchased from <a href="http://https://shop.elcon.ch">ELcon-shop</a> <br>
-<span style="color:red"><b>*The software does not work for all other boards!* text</b></span>
+<span style="color:red"><b>*The software does not work for all other boards!*</b></span>
 
 ## OS installation ##
 Follow the instructions:
