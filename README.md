@@ -43,7 +43,6 @@ To prepare the main user software we still have to install the following librari
 Follow the instructions:
 Use the following command to load the PISKY_Pure software onto your Raspberry Pi Zero W.<br>
 
-	cd
 	git clone https://github.com/HB9GAA/PISKY_Pure.git
 	cd ~/PISKY_Pure
 	./install
