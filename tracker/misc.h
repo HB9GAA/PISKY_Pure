@@ -71,7 +71,6 @@ struct TLoRaDevice
 	int LastPacketSNR;
 	int PacketCount;
 	int ListenOnly;					// True for listen-only payload that waits for an uplink before responding (or times out and sends anyway)
-    
 	};
 
 struct TSSDVPackets
@@ -134,11 +133,9 @@ struct TChannel
 	struct TSSDVPackets SSDVPackets[3];
 	};
 
-#define RTTY_CHANNEL 0
-#define APRS_CHANNEL 1
+
 #define LORA_CHANNEL 2		// 2 for LoRa CE0 and 3 for LoRa CE1
 #define FULL_CHANNEL 4
-#define PIPE_CHANNEL 5
 
 struct TConfig
 	{
@@ -147,9 +144,6 @@ struct TConfig
 	int InfoMessageCount;
 	int BoardType;
 	int i2cChannel;
-	int DisableADC;
-	int32_t BuoyModeAltitude;
-	double MaxADCVoltage;
 	
 	// Camera
 	int Camera;	
@@ -165,7 +159,7 @@ struct TConfig
 	int EnableTelemetryLogging;
 	int TelemetryFileUpdate;		// Period in seconds
 															//added by HB9GAA
-	int UNIXformat;						//UNIXformat = 0 -> hh:mm:ss or UNIXformat = 1 -> UNIX-Time 
+	int UNIXformat;							//UNIXformat = 0 -> hh:mm:ss or UNIXformat = 1 -> UNIX-Time 
 	
 	// LEDs
 	int LED_OK;
@@ -178,21 +172,9 @@ struct TConfig
 	char GPSDevice[64];
 	
 	// RTTY Settings
-	int DisableRTTY;
 	char Frequency[8];
 	speed_t TxSpeed;
 	int QuietRTTYDuringLoRaUplink;
-
-	// APRS Settings
-	char APRS_Callsign[16];
-	int APRS_ID;
-	int APRS_Period;
-	int APRS_Offset;
-	int APRS_Random;
-	int APRS_Altitude;
-	int APRS_HighPath;
-	int APRS_Preemphasis;
-	int APRS_Telemetry;
 	
 	// LoRa Settings
 	struct TLoRaDevice LoRaDevices[2];
@@ -207,13 +189,6 @@ struct TConfig
 		
 	// External data file (read into telemetry)
 	char ExternalDataFileName[100];
-    
-	int BlinkenLight;
-	int FlashBelow;
-	int Flashing;
-		
-	int PiezoPin;
-	int WhistleBelow;
 	};
 
 extern struct TConfig Config;
@@ -244,5 +219,3 @@ int GetBoardType(int *i2cChannel);
 int NoMoreSSDVPacketsToSend(int Channel);
 int BuildSentence(unsigned char *TxLine, int Channel, struct TGPS *GPS);
 int FixDirection180(int Angle);
-void SetupPWMFrequency(int Pin, int Frequency);
-void ControlPWMOutput(int Pin, int Period);

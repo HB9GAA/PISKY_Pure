@@ -952,41 +952,28 @@ int BuildSentence(unsigned char *TxLine, int Channel, struct TGPS *GPS)
 	//-----------------------------------------
 		}
 	else
-		{
-		// Bouy mode or normal mode ?
-		if ((Config.BuoyModeAltitude > 0) && (GPS->Altitude < Config.BuoyModeAltitude))
-			{
-			sprintf(Sentence, "$$%s,%d,%s,%7.5lf,%7.5lf",
-			Config.Channels[Channel].PayloadID,
-			Config.Channels[Channel].SentenceCounter,
-			TimeBuffer,
-			GPS->Latitude,
-			GPS->Longitude);
-			}
-		else
-			{				
-			if (ShowFields) printf("\n");
-			
-			snprintf(Sentence, 512, "$$%.15s,%d,%.15s,%7.5lf,%7.5lf,%5.5" PRId32  ",%d,%d,%d,%3.1f%.12s%.20s%.20s%.40s%.90s%.20s%.10s%.40s",
-			Config.Channels[Channel].PayloadID,
-			Config.Channels[Channel].SentenceCounter,
-			TimeBuffer,
-			GPS->Latitude,
-			GPS->Longitude,
-			GPS->Altitude,
-			(GPS->Speed * 13) / 7,
-			GPS->Direction,
-			GPS->Satellites,
-			GPS->DS18B20Temperature[(GPS->DS18B20Count > 1) ? (1-Config.ExternalDS18B20) : 0],
-			ExtraFields1,
-			ExtraFields2,
-			ExtraFields3,
-			ExtraFields4,
-			ExternalFields,
-			ExtraFields5,
-			ExtraFields6,
-			ExtraFields7);
-			}
+		{				
+		if (ShowFields) printf("\n");
+		
+		snprintf(Sentence, 512, "$$%.15s,%d,%.15s,%7.5lf,%7.5lf,%5.5" PRId32  ",%d,%d,%d,%3.1f%.12s%.20s%.20s%.40s%.90s%.20s%.10s%.40s",
+		Config.Channels[Channel].PayloadID,
+		Config.Channels[Channel].SentenceCounter,
+		TimeBuffer,
+		GPS->Latitude,
+		GPS->Longitude,
+		GPS->Altitude,
+		(GPS->Speed * 13) / 7,
+		GPS->Direction,
+		GPS->Satellites,
+		GPS->DS18B20Temperature[(GPS->DS18B20Count > 1) ? (1-Config.ExternalDS18B20) : 0],
+		ExtraFields1,
+		ExtraFields2,
+		ExtraFields3,
+		ExtraFields4,
+		ExternalFields,
+		ExtraFields5,
+		ExtraFields6,
+		ExtraFields7);
 		}
 		
 	AppendCRC(Sentence);
@@ -1010,18 +997,3 @@ int FixDirection180(int Angle)
 	
 	return Angle;
 	}
-
-
-void SetupPWMFrequency(int Pin, int Frequency)
-	{
-//	return softPwmCreate(Pin, 0, 100);
-	gpioSetPWMfrequency(Pin, Frequency);
-	// gpioServo(18, 2000);
-	}
-
-void ControlPWMOutput(int Pin, int Period)
-	{
-//	softPwmWrite (Pin, Level);
-	gpioServo(Pin, Period);
-	}
-

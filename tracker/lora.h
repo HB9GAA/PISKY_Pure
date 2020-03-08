@@ -1,6 +1,6 @@
 #define REG_FIFO                    0x00
-#define REG_BITRATE_MSB    			0x02
-#define REG_BITRATE_LSB    			0x03
+#define REG_BITRATE_MSB    					0x02
+#define REG_BITRATE_LSB    					0x03
 #define REG_FDEV_MSB                0x04
 #define REG_FDEV_LSB                0x05
 #define REG_FRF_MSB                 0x06
@@ -16,9 +16,9 @@
 #define REG_IRQ_FLAGS               0x12
 #define REG_IRQ_FLAGS1              0x3E
 #define REG_IRQ_FLAGS2              0x3F
-#define REG_PACKET_SNR				0x19
-#define REG_PACKET_RSSI				0x1A
-#define REG_CURRENT_RSSI			0x1B
+#define REG_PACKET_SNR							0x19
+#define REG_PACKET_RSSI							0x1A
+#define REG_CURRENT_RSSI						0x1B
 #define REG_DIO_MAPPING_1           0x40
 #define REG_DIO_MAPPING_2           0x41
 #define REG_MODEM_CONFIG            0x1D
@@ -26,13 +26,13 @@
 #define REG_MODEM_CONFIG3           0x26
 #define REG_PAYLOAD_LENGTH          0x22
 #define REG_HOP_PERIOD              0x24
-#define REG_FREQ_ERROR				0x28
-#define REG_DETECT_OPT				0x31
-#define	REG_DETECTION_THRESHOLD		0x37
-#define REG_PREAMBLE_MSB_FSK 		0x25
-#define REG_PREAMBLE_LSB_FSK 		0x26
+#define REG_FREQ_ERROR							0x28
+#define REG_DETECT_OPT							0x31
+#define	REG_DETECTION_THRESHOLD			0x37
+#define REG_PREAMBLE_MSB_FSK 				0x25
+#define REG_PREAMBLE_LSB_FSK 				0x26
 #define REG_SYNC_CONFIG             0x27
-#define REG_PACKET_CONFIG1	  		0x30
+#define REG_PACKET_CONFIG1	  			0x30
 #define REG_PAYLOAD_LENGTH_FSK      0x32
 #define REG_FIFO_THRESH             0x35
 

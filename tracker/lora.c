@@ -29,6 +29,8 @@ uint8_t currentMode = 0x81;
 
 #pragma pack(1)
 
+//
+//-----------------------------------------------------------------------------
 struct TBinaryPacket
 	{
 	uint8_t 	PayloadIDs;
@@ -39,6 +41,9 @@ struct TBinaryPacket
 	uint16_t	Altitude;
 	};
 
+
+//
+//-----------------------------------------------------------------------------
 struct TLoRaMode 
 	{
 	int	ImplicitOrExplicit;
@@ -49,20 +54,23 @@ struct TLoRaMode
 	int BaudRate;
 	char *Description;
 	} LoRaModes[] = 
+	
 	{
 	{EXPLICIT_MODE, ERROR_CODING_4_8, BANDWIDTH_20K8, SPREADING_11, 8,    60, "Telemetry"},			// 0: Normal mode for telemetry
-	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_20K8, SPREADING_6,  0,  1400, "SSDV"},				// 1: Normal mode for SSDV
+	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_20K8, SPREADING_6,  0,  1400, "SSDV"},					// 1: Normal mode for SSDV
 	{EXPLICIT_MODE, ERROR_CODING_4_8, BANDWIDTH_62K5, SPREADING_8,  0,  2000, "Repeater"},			// 2: Normal mode for repeater network	
-	{EXPLICIT_MODE, ERROR_CODING_4_6, BANDWIDTH_250K, SPREADING_7,  0,  8000, "Turbo"},				// 3: Normal mode for high speed images in 868MHz band
-	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_250K, SPREADING_6,  0, 16828, "TurboX"},			// Fastest mode within IR2030 in 868MHz band
-	{EXPLICIT_MODE, ERROR_CODING_4_8, BANDWIDTH_41K7, SPREADING_11, 0,   200, "Calling"},			// Calling mode
-	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_41K7, SPREADING_6,  0,  2800, "Uplink"},			// Uplink mode for 868
-	{EXPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_20K8, SPREADING_7,  0,  2800, "Telnet"},			// 7: Telnet-style comms with HAB on 434
-	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_62K5, SPREADING_6,  0,  4500, "SSDV Repeater"},		// 8: SSDV Repeater Network
+	{EXPLICIT_MODE, ERROR_CODING_4_6, BANDWIDTH_250K, SPREADING_7,  0,  8000, "Turbo"},					// 3: Normal mode for high speed images in 868MHz band
+	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_250K, SPREADING_6,  0, 16828, "TurboX"},				// Fastest mode within IR2030 in 868MHz band
+	{EXPLICIT_MODE, ERROR_CODING_4_8, BANDWIDTH_41K7, SPREADING_11, 0,   200, "Calling"},				// Calling mode
+	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_41K7, SPREADING_6,  0,  2800, "Uplink"},				// Uplink mode for 868
+	{EXPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_20K8, SPREADING_7,  0,  2800, "Telnet"},				// 7: Telnet-style comms with HAB on 434
+	{IMPLICIT_MODE, ERROR_CODING_4_5, BANDWIDTH_62K5, SPREADING_6,  0,  4500, "SSDV Repeater"},	// 8: SSDV Repeater Network
 	};
 
 int Records, FileNumber;
 
+//
+//-----------------------------------------------------------------------------
 void SetCS(int LoRaChannel, int Value)
 	{
 	if (Config.LoRaDevices[LoRaChannel].CS > 0)
@@ -72,6 +80,8 @@ void SetCS(int LoRaChannel, int Value)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void writeRegister(int Channel, uint8_t reg, uint8_t val)
 	{
 	unsigned char data[2];
@@ -84,6 +94,8 @@ void writeRegister(int Channel, uint8_t reg, uint8_t val)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 uint8_t readRegister(int Channel, uint8_t reg)
 	{
 	unsigned char data[2];
@@ -99,6 +111,8 @@ uint8_t readRegister(int Channel, uint8_t reg)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void setMode(int LoRaChannel, uint8_t newMode)
 	{
   if(newMode == currentMode)
@@ -149,6 +163,8 @@ void setMode(int LoRaChannel, uint8_t newMode)
 	}
  
  
+//
+//-----------------------------------------------------------------------------
 void SetLoRaFrequency(int LoRaChannel, double Frequency)
 	{
 	unsigned long FrequencyValue;
@@ -167,6 +183,8 @@ void SetLoRaFrequency(int LoRaChannel, double Frequency)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void setLoRaMode(int LoRaChannel)
 	{
 	double Frequency;
@@ -178,6 +196,8 @@ void setLoRaMode(int LoRaChannel)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void SetLoRaParameters(int LoRaChannel, int ImplicitOrExplicit, int ErrorCoding, int Bandwidth, int SpreadingFactor, int LowDataRateOptimize)
 	{
 	writeRegister(LoRaChannel, REG_MODEM_CONFIG, ImplicitOrExplicit | ErrorCoding | Bandwidth);
@@ -192,6 +212,8 @@ void SetLoRaParameters(int LoRaChannel, int ImplicitOrExplicit, int ErrorCoding,
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void setupRFM98(int LoRaChannel)
 	{
 	if (Config.LoRaDevices[LoRaChannel].InUse)
@@ -233,6 +255,8 @@ void setupRFM98(int LoRaChannel)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void SwitchToLoRaMode(int LoRaChannel)
 	{
 	setLoRaMode(LoRaChannel);
@@ -248,6 +272,8 @@ void SwitchToLoRaMode(int LoRaChannel)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void SendLoRaData(int LoRaChannel, unsigned char *buffer, int Length)
 	{
 	unsigned char data[257];
@@ -279,6 +305,8 @@ void SendLoRaData(int LoRaChannel, unsigned char *buffer, int Length)
 	Config.LoRaDevices[LoRaChannel].LoRaMode = lmSending;
 	}
 
+//
+//-----------------------------------------------------------------------------
 int BuildLoRaCall(unsigned char *TxLine, int LoRaChannel)
 	{
 	sprintf((char *)TxLine, "^^%s,%s,%d,%d,%d,%d,%d",
@@ -295,6 +323,8 @@ int BuildLoRaCall(unsigned char *TxLine, int LoRaChannel)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 int BuildLoRaPositionPacket(unsigned char *TxLine, int LoRaChannel, struct TGPS *GPS)
 	{
 	int OurID;
@@ -317,6 +347,8 @@ int BuildLoRaPositionPacket(unsigned char *TxLine, int LoRaChannel, struct TGPS 
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void SendLoRaImage(int LoRaChannel, int RTTYMode)
 	{
 	unsigned char Buffer[256];
@@ -355,6 +387,8 @@ void SendLoRaImage(int LoRaChannel, int RTTYMode)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 int TDMTimeToSendOnThisChannel(int LoRaChannel, struct TGPS *GPS)
 	{
 	// Can't send till we have the time!
@@ -404,6 +438,8 @@ int TDMTimeToSendOnThisChannel(int LoRaChannel, struct TGPS *GPS)
 	}
 	
 	
+//
+//-----------------------------------------------------------------------------
 int UplinkTimeToSendOnThisChannel(int LoRaChannel, struct TGPS *GPS)
 	{
 	// Can't use time till we have it
@@ -420,6 +456,8 @@ int UplinkTimeToSendOnThisChannel(int LoRaChannel, struct TGPS *GPS)
 	}
 
 	
+//
+//-----------------------------------------------------------------------------
 int TimeToSendOnThisChannel(int LoRaChannel, struct TGPS *GPS)
 	{
 	if (Config.LoRaDevices[LoRaChannel].ListenOnly)
@@ -449,6 +487,8 @@ int TimeToSendOnThisChannel(int LoRaChannel, struct TGPS *GPS)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void startReceiving(int LoRaChannel)
 	{
 	if (Config.LoRaDevices[LoRaChannel].InUse)
@@ -469,6 +509,8 @@ void startReceiving(int LoRaChannel)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 double BandwidthInKHz(int Channel)
 	{
 	if (Config.LoRaDevices[Channel].Bandwidth == BANDWIDTH_7K8) return 7.8;
@@ -486,6 +528,8 @@ double BandwidthInKHz(int Channel)
 	};
 
 
+//
+//-----------------------------------------------------------------------------
 double FrequencyError(int Channel)
 	{
 	int32_t Temp;
@@ -505,6 +549,8 @@ double FrequencyError(int Channel)
 	}	
 
 
+//
+//-----------------------------------------------------------------------------
 int receiveMessage(int LoRaChannel, unsigned char *message)
 	{
 	int i, Bytes, currentAddr, x;
@@ -554,6 +600,8 @@ int receiveMessage(int LoRaChannel, unsigned char *message)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void CheckForPacketOnListeningChannels(struct TGPS *GPS)
 	{
 	int LoRaChannel;
@@ -677,6 +725,8 @@ void CheckForPacketOnListeningChannels(struct TGPS *GPS)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 int CheckForFreeChannel(struct TGPS *GPS)
 	{
 	int LoRaChannel;
@@ -746,6 +796,8 @@ int CheckForFreeChannel(struct TGPS *GPS)
 	}
 
 
+//
+//-----------------------------------------------------------------------------
 void LoadLoRaConfig(FILE *fp, struct TConfig *Config)
 	{
 	int LoRaChannel;
@@ -985,6 +1037,8 @@ void LoadLoRaConfig(FILE *fp, struct TConfig *Config)
 	}
 
 	
+//
+//-----------------------------------------------------------------------------
 void *LoRaLoop(void *some_void_ptr)
 	{	
 	int LoopMS = 5;
