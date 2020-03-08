@@ -20,7 +20,7 @@ sudo systemctl mask serial-getty@ttyAMA0.service
 sudo sed -e "s/console=serial0,115200//g" -i.backup /boot/cmdline.txt
 
 echo -e "\nOneWire enabled"
-sudo raspi-config nonint do_onewire 0 #Default
+sudo raspi-config nonint do_onewire 0
 
 rev=$(cat /proc/cpuinfo|grep Revision|awk -F: '$0=$2'|tr -d ' ' )
 
