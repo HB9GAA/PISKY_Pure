@@ -33,12 +33,12 @@ Once a connection is established, you'll be prompted by PuTTY to accept the conn
 If it's been a while since the image was downloaded, we can update the software on the Raspi again:
 
 	sudo apt-get update
-	sudo apt-get upgrade
+	sudo apt-get upgrade -y
 
 To prepare the main user software we still have to install the following libraries.
 
-	sudo apt-get install git
-	sudo apt-get install python3-distutils
+	sudo apt-get install git -y
+	sudo apt-get install python3-distutils -y
 
 
 ## PISKY_Pure installation ##
