@@ -51,7 +51,7 @@ sudo raspi-config nonint do_i2c 0
 echo -e "\nInstalling PiGPIO"
 echo      "-----------------"
 cd
-sudo apt install python-setuptools python3-setuptools
+sudo apt install python-setuptools python3-setuptools -y
 wget https://github.com/HB9GAA/PIGPIO/archive/master.zip
 unzip master.zip
 cd PIGPIO-master
