@@ -60,7 +60,7 @@ esac
 echo -e "\nInstalling PiGPIO"
 echo      "-----------------"
 cd
-wget github.com/HB9GAA/PIGPIO/PIGPIO.zip
+wget https://github.com/HB9GAA/PIGPIO/raw/master/PIGPIO.zip
 unzip PIGPIO.zip
 cd PIGPIO
 make
