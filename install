@@ -48,15 +48,6 @@ sudo raspi-config nonint do_spi 0
 echo -e "\nI2C is enabled"
 sudo raspi-config nonint do_i2c 0
 
-read -rp $'\nAre you using a USB Webcam[y,N]' choice 
-case $choice in  
-  n|N) ;;
-  *) 
-      echo "Installing fswebcam"
-      echo "-------------------"
-      sudo apt-get install fswebcam ;; 
-esac
-
 echo -e "\nInstalling PiGPIO"
 echo      "-----------------"
 cd
