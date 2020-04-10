@@ -9,7 +9,7 @@ The GNSS/LoRa board can be purchased from <a href="http://https://shop.elcon.ch"
 
 ## OS installation ##
 Follow the instructions:
-- Download the latest version of <a href="https://www.raspberrypi.org/downloads/">Raspberry Pi Imagerand</a> install it. <br>
+- Download the latest version of <a href="https://www.raspberrypi.org/downloads/">Raspberry Pi Imager</a> and install it. <br>
 - Connect an SD card reader with the SD card inside. <br>
 - Open Raspberry Pi Imager and choose the OS RASBIAN LITE from the list presented. <br>
 - Choose the SD card you wish to write your image to. <br>
