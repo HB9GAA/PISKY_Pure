@@ -60,6 +60,7 @@ esac
 echo -e "\nInstalling PiGPIO"
 echo      "-----------------"
 cd
+sudo apt install python-setuptools python3-setuptools
 wget https://github.com/HB9GAA/PIGPIO/archive/master.zip
 unzip master.zip
 cd PIGPIO-master

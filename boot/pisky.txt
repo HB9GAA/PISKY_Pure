@@ -1,6 +1,4 @@
-payload=YOUR CALL
 disable_monitor=Y
-
 camera=Y
 
 low_width=320
