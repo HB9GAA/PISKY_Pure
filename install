@@ -60,9 +60,9 @@ esac
 echo -e "\nInstalling PiGPIO"
 echo      "-----------------"
 cd
-wget https://github.com/HB9GAA/pigpio/archive/master.zip
+wget https://github.com/HB9GAA/PIGPIO/archive/master.zip
 unzip master.zip
-cd pigpio-master
+cd PIGPIO-master
 make
 sudo make install
 
