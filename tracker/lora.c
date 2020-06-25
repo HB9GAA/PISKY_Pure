@@ -349,7 +349,7 @@ int BuildLoRaPositionPacket(unsigned char *TxLine, int LoRaChannel, struct TGPS 
 
 //
 //-----------------------------------------------------------------------------
-void SendLoRaImage(int LoRaChannel, int RTTYMode)
+void SendLoRaImage(int LoRaChannel)
 	{
 	unsigned char Buffer[256];
 	size_t Count;
@@ -738,27 +738,27 @@ int CheckForFreeChannel(struct TGPS *GPS)
 			if ((Config.LoRaDevices[LoRaChannel].LoRaMode != lmSending) || digitalRead(Config.LoRaDevices[LoRaChannel].DIO0))
 				{
 				// printf ("LoRa Channel %d is free\n", LoRaChannel);
-				// Either not sending, or was but now it's sent.  Clear the flag if we need to
+				// Entweder wird nicht gesendet, oder es wurde bereits gesendet.  Löschen Sie die Markierung.
 				if (Config.LoRaDevices[LoRaChannel].LoRaMode == lmSending)
 					{
-					// Clear that IRQ flag
+					//IRQ-Flag löschen
 					writeRegister(LoRaChannel, REG_IRQ_FLAGS, 0x08); 
 					Config.LoRaDevices[LoRaChannel].LoRaMode = lmIdle;
 					}
 				
-				// Mow we test to see if we can send now
-				// If Tx is continuous, then the answer is yes, of course
-				// If there's an uplink period defined, we need to be outside that
-				// For TDM, we need to be inside one of our slots
+				//Testen, ob wir jetzt senden können
+				//Wenn Tx konstant ist, dann ist die Antwort logischerweise ja.
+				//Wenn es eine Uplink-Periode gibt, müssen wir außerhalb dieses Zeitraums sein.
+				//Für TDM müssen wir in einem unserer Slots sein
 				if (TimeToSendOnThisChannel(LoRaChannel, GPS))
 					{
-					// Either sending continuously, or it's our slot to send in
-					// printf("Channel %d is free\n", Channel);
+					//Entweder wir senden ununterbrochen, oder es ist unser Zeitfenster zum Senden.
+					//printf("Channel %d is free\n", Channel);
 					return LoRaChannel;
 					}
 				else if ((Config.LoRaDevices[LoRaChannel].CycleTime > 0) || (Config.LoRaDevices[LoRaChannel].UplinkCycle > 0) || Config.LoRaDevices[LoRaChannel].ListenOnly)
 					{
-					// TDM system and not time to send, so we can listen
+					//TDM-System und keine Zeit zum Senden, dann können wir Empfangen 
 					if (Config.LoRaDevices[LoRaChannel].LoRaMode == lmIdle)
 						{
 						if (!Config.LoRaDevices[LoRaChannel].ListenOnly)
@@ -842,12 +842,12 @@ void LoadLoRaConfig(FILE *fp, struct TConfig *Config)
 			if ((Config->LoRaDevices[LoRaChannel].SpeedMode < 0) || (Config->LoRaDevices[LoRaChannel].SpeedMode >= sizeof(LoRaModes)/sizeof(LoRaModes[0]))) Config->LoRaDevices[LoRaChannel].SpeedMode = 0;
 			printf("      - Mode %d (%s)\n", Config->LoRaDevices[LoRaChannel].SpeedMode, LoRaModes[Config->LoRaDevices[LoRaChannel].SpeedMode].Description);
 
-			// DIO0 / DIO5 overrides
+			//DIO0 / DIO5 übersteuern
 			Config->LoRaDevices[LoRaChannel].DIO0 = ReadInteger(fp, "LORA_DIO0", LoRaChannel, 0, Config->LoRaDevices[LoRaChannel].DIO0);
 			Config->LoRaDevices[LoRaChannel].DIO5 = ReadInteger(fp, "LORA_DIO5", LoRaChannel, 0, Config->LoRaDevices[LoRaChannel].DIO5);
 			printf("      - DIO0=%d DIO5=%d\n", Config->LoRaDevices[LoRaChannel].DIO0, Config->LoRaDevices[LoRaChannel].DIO5);
 
-			// CS for those stupid boards that don't use standard Pi CS pins ...
+			//CS für die ganz einfachen Boards, die keine Standard-Pi-CS-Pins verwenden ...
 			Config->LoRaDevices[LoRaChannel].CS = ReadInteger(fp, "LORA_CS", LoRaChannel, 0, 0);
 			if (Config->LoRaDevices[LoRaChannel].CS > 0)
 				{
@@ -1015,8 +1015,7 @@ void LoadLoRaConfig(FILE *fp, struct TConfig *Config)
 		
 			if (Config->LoRaDevices[LoRaChannel].CallingFrequency[0])
 				{
-				// Calling frequency enabled
-				
+				//Anruffrequenz aktiviert
 				Config->LoRaDevices[LoRaChannel].CallingCount = ReadInteger(fp, "LORA_Calling_Count", LoRaChannel, 0, 0);
 				if (Config->LoRaDevices[LoRaChannel].CallingCount)
 					{
@@ -1064,9 +1063,9 @@ void *LoRaLoop(void *some_void_ptr)
 	
 	while (1)
 		{	
-		delay(LoopMS);								// To stop this loop gobbling up CPU
+		delay(LoopMS);														//So verhindern Sie, dass diese Schleife die CPU verstopft.
 		CheckForPacketOnListeningChannels(GPS);
-		LoRaChannel = CheckForFreeChannel(GPS);		// 0 or 1 if there's a free channel and we should be sending on that channel now
+		LoRaChannel = CheckForFreeChannel(GPS);		//0 oder 1, wenn es einen freien Kanal gibt und wir jetzt auf diesem Kanal senden sollten
 
 		if ((LoRaChannel >= 0) && (LoRaChannel <= 1))
 			{
@@ -1161,7 +1160,7 @@ void *LoRaLoop(void *some_void_ptr)
 				else
 					{
 					// Image packet
-					SendLoRaImage(LoRaChannel, 0);
+					SendLoRaImage(LoRaChannel);
 					}
 
 				if (Config.Channels[Channel].ImagePackets == 0)

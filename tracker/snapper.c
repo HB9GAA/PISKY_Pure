@@ -40,32 +40,13 @@ int SSDVPacketsToSend(int Channel)
 
 int TimeTillImageCompleted(int Channel)
 	{
-
-	// Quick check for the "full" channel - for this we aren't transmitting so we need to return a large number so we don't take a photo immediately
+	//Schneller Check für den " full"-Kanal - dafür senden wir nicht, also müssen wir eine große Anzahl zurücksenden, damit wir nicht sofort ein Foto machen
 	if (Channel == 4)
 		{
 		return 9999;
 		}
 	
 	return SSDVPacketsToSend(Channel) * 256 * 10 / Config.Channels[Channel].BaudRate;
-
-/*	
-	// If we aren't sending a file, then we need a new one NOW!
-	if (Config.Channels[Channel].ImageFP == NULL || 
-	    (Config.Channels[Channel].SSDVTotalRecords == 0))
-	{
-		// printf ("Convert image now for channel %d!\n", Channel);
-		return 0;
-	}
-
-	// If we're on the last packet, convert anyway
-	if (Config.Channels[Channel].SSDVRecordNumber >= (Config.Channels[Channel].SSDVTotalRecords-1))
-	{
-		return 0;
-	}
-		
-	return (Config.Channels[Channel].SSDVTotalRecords - Config.Channels[Channel].SSDVRecordNumber) * 256 * 10 / Config.Channels[Channel].BaudRate;
-*/	
 	}
 
 
@@ -113,35 +94,24 @@ void FindBestImageAndRequestConversion(int Channel, int width, int height)
 		if ((fp = fopen(Config.Channels[Channel].convert_file, "wt")) != NULL)
 			{
 			Config.Channels[Channel].SSDVFileNumber++;
-			// Config.Channels[Channel].SSDVFileNumber = Config.Channels[Channel].SSDVFileNumber & 255;
-
 			sprintf(Config.Channels[Channel].ssdv_filename, "ssdv_%d_%d.bin", Channel, Config.Channels[Channel].SSDVFileNumber);
 			
 			if (Config.Camera == 4)
 				{
-				// Just write parameters to file, and leave it to the external script to do the rest
+				//Schreiben Sie einfach Parameter in eine Datei und überlassen Sie dem externen Skript den Rest
 				fprintf(fp, "%s\n%.6s\n%d\n%s\n%d\n%d\n%s\n", Config.Channels[Channel].PayloadID, Config.SSDVSettings, Config.Channels[Channel].SSDVFileNumber, LargestFileName, width, height, Config.Channels[Channel].ssdv_filename);
 				}
 			else
 				{
-				// External script for ImageMagick etc.
+				//Externes Skript für ImageMagick etc.
 				fprintf(fp, "rm -f ssdv.jpg\n");
 				fprintf(fp, "if [ -e process_image ]\n");
 				fprintf(fp, "then\n");
 				fprintf(fp, "	./process_image %d %s %d %d\n", Channel, LargestFileName, width, height);
 				fprintf(fp, "else\n");
-				// Just copy file, unless we're using gphoto2 in which case we need to resize, meaning imagemagick *must* be installed
-				if (Config.Camera == 3)
-					{
-					// resize
-					fprintf(fp, "	convert %s -resize %dx%d ssdv.jpg\n", LargestFileName, width, height);
-					}
-				else
-					{
-					fprintf(fp, "	cp %s ssdv.jpg\n", LargestFileName);
-					}
+				//Kopieren Sie einfach die Datei
+				fprintf(fp, "	cp %s ssdv.jpg\n", LargestFileName);
 				fprintf(fp, "fi\n");
-				
 				fprintf(fp, "ssdv %s -e -c %.6s -i %d %s %s\n", Config.SSDVSettings, Config.Channels[Channel].PayloadID, Config.Channels[Channel].SSDVFileNumber, "ssdv.jpg", Config.Channels[Channel].ssdv_filename);
 				fprintf(fp, "mkdir -p %s/$1\n", SSDVFolder);
 				fprintf(fp, "mv %s/*.JPG %s/$1\n", SSDVFolder, SSDVFolder);
@@ -167,10 +137,7 @@ void GetWidthAndHeightForChannel(struct TGPS *GPS, int Channel, int *width, int 
 		*height = Config.Channels[Channel].ImageHeightWhenLow;
 		}
 	
-	// if (*width < 320) *width = 320;
-	// if (*height < 240) *height = 240;					
-
-	// SSDV requires dimensions to be multiples of 16 pixels
+	//SSDV erfordert die Dimensionen eines Vielfachen von 16 Pixeln
 	*width = (*width / 16) * 16;
 	*height = (*height / 16) * 16;
 	}
@@ -194,29 +161,25 @@ void *CameraLoop(void *some_void_ptr)
 
 	while (1)
 		{
-		for (Channel=0; Channel<5; Channel++)
+		for (Channel = 0; Channel < 5; Channel++)
 			{
 			if (Config.Channels[Channel].Enabled && (Config.Channels[Channel].ImagePackets > 0))
 				{
-				// Channel using SSDV
-				
+				//Kanal, der SSDV verwendet
 				if (++Config.Channels[Channel].TimeSinceLastImage >= Config.Channels[Channel].ImagePeriod)
 					{
-					// Time to take a photo on this channel
-
-					Config.Channels[Channel].TimeSinceLastImage = 0;
-					
-					GetWidthAndHeightForChannel(GPS, Channel, &width, &height);
+					//Es ist Zeit, ein Foto auf diesem Kanal zu machen
+					Config.Channels[Channel].TimeSinceLastImage = 0;							//Zeit zurücksetzen
+					GetWidthAndHeightForChannel(GPS, Channel, &width, &height);		//Bildgrösse lesen
 					
 					if ((width >= 0) && (height >= 0))
 						{
-						// Create name of file
-						sprintf(filename, "/home/pi/PISKY_Pure/tracker/take_pic_%d", Channel);
+						sprintf(filename, "/home/pi/PISKY_Pure/tracker/take_pic_%d", Channel); //Name der Datei erstellen
 						
-						// Leave it alone if it exists (this means that the photo has not been taken yet)
+						//Falls das Bild bereits existiert, nicht antasten, dann ist das neue Bild noch nicht erstellt worden
 						if (access(filename, F_OK ) == -1)
 							{				
-							// Doesn't exist, so create it.  Script will run it next time it checks
+							//Das File existiert nicht, also erstellen. Das Skript wird es das nächste Mal ausführen.
 							if ((fp = fopen(filename, "wt")) != NULL)
 								{
 								char FileName[256];
@@ -224,55 +187,24 @@ void *CameraLoop(void *some_void_ptr)
 								
 								if (Channel == 4)
 									{
-									// Bilder in voller Grösse werden in einem mit Datum versehenen Ordner gespeichert.
+									//Die Bilder in voller Grösse werden in einem mit Datum versehenen Ordner gespeichert.
 									fprintf(fp, "mkdir -p %s/$2\n", Config.Channels[Channel].SSDVFolder);
 
 									sprintf(FileName, "%s/$2/$1.JPG", Config.Channels[Channel].SSDVFolder);				
 
-									if (Config.Camera == 3)
+									if ((width == 0) || (height == 0))
 										{
-										if (access("take_photo",  X_OK) == 0)
-											{
-											fprintf(fp, "./take_photo %s\n", FileName);
-											}
-										else
-											{
-											fprintf(fp, "gphoto2 --capture-image-and-download --force-overwrite --filename %s\n", FileName);
-											}
-										}
-									else if (Config.Camera == 2)
-										{
-										fprintf(fp, "fswebcam -r %dx%d --no-banner %s\n", width, height, FileName);
-										}
-									else
-										{
-										if ((width == 0) || (height == 0))
-											{
-											fprintf(fp, "raspistill -st -t 3000 -ex auto -mm matrix %s -o %s\n", Config.CameraSettings, FileName);
-											}
-										else
-											{
-											fprintf(fp, "raspistill -st -w %d -h %d -t 3000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
-											}
-										}
-									}
-								else
-									{
-									sprintf(FileName, "%s/$1.JPG", Config.Channels[Channel].SSDVFolder);
-
-									if (Config.Camera == 3)
-										{
-										// For gphoto2 we do full-res now and resize later
-										fprintf(fp, "gphoto2 --capture-image-and-download --force-overwrite --filename %s\n", FileName);
-										}
-									else if (Config.Camera == 2)
-										{
-										fprintf(fp, "fswebcam -r %dx%d --no-banner %s\n", width, height, FileName);
+										fprintf(fp, "raspistill -st -t 3000 -ex auto -mm matrix %s -o %s\n", Config.CameraSettings, FileName);
 										}
 									else
 										{
 										fprintf(fp, "raspistill -st -w %d -h %d -t 3000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
 										}
+									}
+								else
+									{
+									sprintf(FileName, "%s/$1.JPG", Config.Channels[Channel].SSDVFolder);
+									fprintf(fp, "raspistill -st -w %d -h %d -t 3000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
 									}
 								
 								// Telemetrie als Kommentar in JPEG-Datei einfügen

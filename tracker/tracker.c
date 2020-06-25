@@ -182,51 +182,6 @@ void LoadConfigFile(struct TConfig *Config)
 	fclose(fp);
 	}
 
-char *SerialPortName(void)
-	{
-	// Put this here in case the serial port name changes sometime
-	
-	return "/dev/ttyAMA0";
-	}
-
-int OpenSerialPort(void)
-	{
-	int fd;
-
-	fd = open(SerialPortName(), O_WRONLY | O_NOCTTY);	// O_NDELAY);
-	if (fd >= 0)
-		{
-		/* get the current options */
-		tcgetattr(fd, &options);
-
-		/* set raw input */
-		options.c_lflag &= ~ECHO;
-		options.c_cc[VMIN]  = 0;
-		options.c_cc[VTIME] = 10;
-
-		cfsetispeed(&options, Config.TxSpeed);
-		cfsetospeed(&options, Config.TxSpeed);
-		options.c_cflag |= CSTOPB;
-		options.c_cflag &= ~CSIZE;
-		if (Config.TxSpeed == B50)
-			{
-			options.c_cflag |= CS7;
-			}
-		else
-			{
-			options.c_cflag |= CS8;
-			}
-		options.c_oflag &= ~ONLCR;
-		options.c_oflag &= ~OPOST;
-		options.c_iflag &= ~IXON;
-		options.c_iflag &= ~IXOFF;
-	
-		tcsetattr(fd, TCSANOW, &options);
-		}
-
-	return fd;
-	}
-
 void SendSentence(int fd, char *TxLine)
 	{
 	write(fd, TxLine, strlen(TxLine));
@@ -277,7 +232,7 @@ int LoRaChannelUploadNow(int LoRaChannel, struct TGPS *GPS, int PacketTime)
 int LoRaUploadNow(struct TGPS *GPS, int PacketTime)
 	{
 	// Can't use time till we have it
-	if (Config.QuietRTTYDuringLoRaUplink && (GPS->Satellites > 0)) // && (GPS->Altitude > Config.SSDVHigh))
+	if (GPS->Satellites > 0) 									// && (GPS->Altitude > Config.SSDVHigh))
 		{
 		return (LoRaChannelUploadNow(0, GPS, PacketTime) || LoRaChannelUploadNow(1, GPS, PacketTime));
 		}

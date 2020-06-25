@@ -43,7 +43,6 @@ struct TLoRaDevice
 	int UplinkRepeatLength;
 	tPacketType SendPacketType;
 	tLoRaMode LoRaMode;
-  int SendingRTTY;
 	char CallingFrequency[8];
 	int CallingCount;
   int CallingSlot;
@@ -101,24 +100,21 @@ struct TChannel
 	int SendTelemetry;						// TRUE to send telemetry on this channel
 	char SSDVFolder[200];
 	int ImagePackets;						// Image packets per telemetry packet
-	// int ImagePacketCount;					// Image packets since last telemetry packet
+	
 	int ImageWidthWhenLow;
 	int ImageHeightWhenLow;
+	
 	int ImageWidthWhenHigh;
 	int ImageHeightWhenHigh;
+	
 	int ImagePeriod;						// Time in seconds between photographs
 	int	TimeSinceLastImage;
 	unsigned int BaudRate;
 	char take_pic[100];
-	// char current_ssdv[100];
-	// char next_ssdv[100];
 	char convert_file[100];
 	char ssdv_done[100];
 	char ssdv_filename[100];
 	FILE *ImageFP;
-	// int SSDVRecordNumber;
-	// int SSDVTotalRecords;
-	// int NextSSDVFileReady;
 	int ImagesRequested;
 	
 	// SSDV Variables
@@ -134,7 +130,7 @@ struct TChannel
 	};
 
 
-#define LORA_CHANNEL 2		// 2 for LoRa CE0 and 3 for LoRa CE1
+#define LORA_CHANNEL 2		// 2 for LoRa CE0
 #define FULL_CHANNEL 4
 
 struct TConfig
@@ -170,12 +166,7 @@ struct TConfig
 	int SDA;
 	int SCL;
 	char GPSDevice[64];
-	
-	// RTTY Settings
-	char Frequency[8];
-	speed_t TxSpeed;
-	int QuietRTTYDuringLoRaUplink;
-	
+		
 	// LoRa Settings
 	struct TLoRaDevice LoRaDevices[2];
 
