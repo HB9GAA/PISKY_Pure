@@ -4,7 +4,7 @@ Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>
 Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
 
 This software is specially written for the GNSS/LoRa board and Raspberry Pi Zero W. <br>
-The GNSS/LoRa board can be purchased from <a href="http://https://shop.elcon.ch">ELcon-shop</a> <br>
+The GNSS/LoRa board can be purchased from <a href="https://shop.elcon.ch">ELcon-shop</a> <br>
 <g-emoji class="g-emoji" alias="exclamation" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2757.png">❗️</g-emoji> ***The software does not work for all other boards!***
 
 ## OS installation ##
@@ -16,7 +16,7 @@ Follow the instructions:
 - Review your selections and click 'WRITE' to begin writing data to the SD card.<br><br>
 - Open the "boot" directory on the SD Card, and create an empty file named "ssh".<br><br>
 - In order to connect the Raspberry Pi to a WLAN router (hotspot), it has to know the SSID and the passphrase (password)<br>
- of your router. These WLAN log-in information can be entered by starting the configuration tool <a href="http://elcon.ch/download/RaspberryPi/RaspiBrickConfig.jar">RaspiBrickConfig.jar</a><br>
+ of your router. These WLAN log-in information can be entered by starting the configuration tool <a href="https://github.com/HB9GAA/PISKY_Pure/raw/master/misc/RaspiBrickConfig.jar">RaspiBrickConfig.jar</a><br>
  You must copy this tool into the "boot" directory before you start it.<br>
  In the dialog box enter your router SSID and the passphrase. Then click Create SSID and Save.<br>
 <img src="/misc/raspibrick10.png" align="middle"><br>
