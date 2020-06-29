@@ -7,24 +7,7 @@
 
 #define _GNU_SOURCE 1
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdint.h>
-#include <string.h>
-#include <fcntl.h>
-#include <time.h>
-#include <math.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <wiringPi.h>
-#include "gps.h"
-#include "misc.h"
-
+#include "Configuration.h"
 
 struct gps_info 
 	{
@@ -733,7 +716,7 @@ void ProcessLine(struct gps_info *bb, struct TGPS *GPS, char *Buffer, int Count,
 //
 //--------------------------------------------------------------------------------------------
 void *GPSLoop(void *some_void_ptr)
-{
+	{
 	char Line[100];
 	int Length;
 	struct gps_info bb;
@@ -745,9 +728,9 @@ void *GPSLoop(void *some_void_ptr)
 	
 	fp = NULL;
 	if (Config.GPSSource[0])
-	{
+		{
 		fp = fopen(Config.GPSSource, "rt");
-	}
+		}
 	
 	Length = 0;
 	SentenceCount = 0;

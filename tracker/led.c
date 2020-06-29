@@ -1,18 +1,4 @@
-#include <stdio.h> 
-#include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <errno.h>
-#include <wiringPi.h>
-
-#include "gps.h"
-#include "misc.h"
+#include "Configuration.h"
 
 
 void *LEDLoop(void *some_void_ptr)

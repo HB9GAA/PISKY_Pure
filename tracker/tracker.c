@@ -10,36 +10,7 @@
 // 5 - Builds a telemetry sentence to transmit
 // 6 - repeats steps 2-6
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <ctype.h>
-#include <stdio.h>   	// Standard input/output definitions
-#include <string.h>  	// String function definitions
-#include <unistd.h>  	// UNIX standard function definitions
-#include <fcntl.h>   	// File control definitions
-#include <errno.h>   	// Error number definitions
-#include <termios.h> 	// POSIX terminal control definitions
-#include <stdint.h>
-#include <stdlib.h>
-#include <dirent.h>
-#include <math.h>
-#include <pthread.h>
-#include <wiringPi.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <ifaddrs.h>
-#include <sys/statvfs.h>
-#include <pigpio.h> 
-#include <inttypes.h>
-
-#include "gps.h"
-#include "DS18B20.h"
-#include "misc.h"
-#include "snapper.h"
-#include "led.h"
-#include "lora.h"
-#include "log.h"
+#include "Configuration.h"
 
 struct TConfig Config;
 
@@ -90,11 +61,27 @@ void LoadConfigFile(struct TConfig *Config)
 	Config->EnableTelemetryLogging = ReadBooleanFromString(fp, "logging", "Telemetry");
 	if (Config->EnableTelemetryLogging) printf("Telemetry Logging enabled\n");
 	
+	Config->EnableRelaisLogging = ReadBooleanFromString(fp, "logging", "Relais");
+	if (Config->EnableRelaisLogging) printf("Relais Logging enabled\n");
+	
 	Config->TelemetryFileUpdate = ReadInteger(fp, "telemetry_file_update", -1, 0, 0);
 	if (Config->TelemetryFileUpdate > 0)
 		{
 		printf("Telemetry file 'latest.txt' will be created every %d seconds\n", Config->TelemetryFileUpdate);
 		}
+	
+	
+	for (int Rel = 0; Rel < 4; Rel++)
+		{
+		printf("Relais %d settings\n", Rel);
+		Config->RelaisConfig[Rel].AscendON = ReadInteger(fp, "ASC_ON_Relais", Rel, 0, 0);
+		Config->RelaisConfig[Rel].AscendOFF = ReadInteger(fp, "ASC_OFF_Relais", Rel, 0, 0);
+		printf("      - ASC_ON = %5d m,\tASC_OFF = %5d m\n", Config->RelaisConfig[Rel].AscendON, Config->RelaisConfig[Rel].AscendOFF);
+		Config->RelaisConfig[Rel].DescendON = ReadInteger(fp, "DES_ON_Relais", Rel, 0, 0);
+		Config->RelaisConfig[Rel].DescendOFF = ReadInteger(fp, "DES_OFF_Relais", Rel, 0, 0);
+		printf("      - DES_ON = %5d m,\tDES_OFF = %5d m\n", Config->RelaisConfig[Rel].DescendON, Config->RelaisConfig[Rel].DescendOFF);
+		}
+	
 	
 	Config->ExternalDS18B20 = ReadInteger(fp, "external_temperature", -1, 0, 1);
 	if (Config->ExternalDS18B20)
@@ -253,7 +240,7 @@ int main(void)
 	int i;
 	struct stat st = {0};
 	struct TGPS GPS;
-	pthread_t LoRaThread, GPSThread, DS18B20Thread, CameraThread, LEDThread, LogThread;
+	pthread_t LoRaThread, GPSThread, RelaisThread, DS18B20Thread, CameraThread, LEDThread, LogThread;
 	
 	if (prog_count("tracker") > 1)
 		{
@@ -279,17 +266,6 @@ int main(void)
 		if ((Config.BoardType == 4) || (Config.BoardType == 3))
 			{
 			printf("RPi Zero W oder RPi Zero\n");
-			}
-		else
-			{
-			if (Config.BoardType == 2)
-				{
-				printf("RPi 3B\n");
-				}
-			else
-				{
-				printf("RPi Model A+ oder B+ or B V2\n");
-				}
 			}
 				
 		Config.LED_OK = 25;
@@ -397,6 +373,12 @@ int main(void)
 			}
 		}
 	
+	if (pthread_create(&RelaisThread, NULL, RelaisLoop, &GPS))
+		{
+		fprintf(stderr, "Fehler beim Erstellen des Relais-Threads\n");
+		return 1;
+		}
+		
 	if (pthread_create(&DS18B20Thread, NULL, DS18B20Loop, &GPS))
 		{
 		fprintf(stderr, "Fehler beim Erstellen des DS18B20s-Threads\n");

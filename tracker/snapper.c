@@ -1,22 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <errno.h>
-#include <wiringPiSPI.h>
-#include <gertboard.h>
-#include <inttypes.h>
-
-#include "gps.h"
-#include "misc.h"
-
+#include "Configuration.h"
 
 int SSDVPacketsToSend(int Channel)
 		{

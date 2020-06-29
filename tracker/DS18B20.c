@@ -1,17 +1,4 @@
-#include <ctype.h>
-#include <stdio.h>   	// Standard input/output definitions
-#include <string.h>  	// String function definitions
-#include <unistd.h>  	// UNIX standard function definitions
-#include <fcntl.h>   	// File control definitions
-#include <errno.h>   	// Error number definitions
-#include <termios.h> 	// POSIX terminal control definitions
-#include <stdint.h>
-#include <stdlib.h>
-#include <dirent.h>
-#include <math.h>
-
-#include "gps.h"
-#include "DS18B20.h"
+#include "Configuration.h"
 
 void *DS18B20Loop(void *some_void_ptr)
 	{
