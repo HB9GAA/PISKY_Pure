@@ -1,29 +1,66 @@
+
 disable_monitor=Y
-camera=Y
 
-low_width=320
+#Camera parameters
+#-----------------------------------------------------------------------------------------------------------------
+camera=Y												#Is a camera used? (Y or N), if not, the following camera parameters are obsolete
+
+high=100												#Switching height in meters for the camera resolution (low <-> high)
+
+low_width=320										#low camera resolution, for images which are stored on the payload and sent via SSDV
 low_height=240
-
-high=100
-high_width=640
+high_width=640									#high camera resolution, for images which are stored on the payload and sent via SSDV
 high_height=480
 
-image_packets=4
-external_temperature=1
-logging=GPS,Telemetry
-
-#If UNIX_time is activated, the UNIX time is used instead of the time format hh:mm:ss
-UNIXformat=1 
-
-full_low_width=640 
+full_low_width=640							#low camera resolution, for images which are stored on the payload
 full_low_height=480
+full_high_width=0								#full camera resolution, for images which are stored on the payload
+full_high_height=0							#0 means maximum possible resolution of the used camera
 
-# 0 in either of the following tells the software to use full resolution from the Pi camera
-full_high_width=0
-full_high_height=0
-full_image_period=600
+full_image_period=600						#Image capture interval in seconds for full image resolution				
 
-LORA_Frequency_0=434.400
-LORA_Payload_0=YOUR CALL
-LORA_Mode_0=1
-LORA_PPM_0=-6.2
+image_packets=4									#Interval after how many SSDV packets a telemetry packet is sent
+
+
+#Logging parameters
+#-----------------------------------------------------------------------------------------------------------------
+external_temperature=1					#Is there an external temperature sensor DS18S20?
+logging=GPS,Telemetry						#which data should be logged on the payload? (GPS, Telemetry)
+
+
+#Time format parameters
+#-----------------------------------------------------------------------------------------------------------------
+UNIXformat=1										#If UNIX_time is activated, the UNIX time is used instead of the restricted time format hh:mm:ss
+
+
+#LoRa parameters
+#-----------------------------------------------------------------------------------------------------------------
+LORA_Payload_0=YOUR CALL				#Callsign for telemetry and SSDV communication
+LORA_Frequency_0=434.400				#Transmission frequency
+LORA_Mode_0=1										#LoRa transmission mode
+LORA_PPM_0=0.0									#Adjustment of the LoRa transmission frequency									
+
+
+#Switching thresholds of the relays in meters altitude, a Value = 0 indicates that the parameter is not considered
+#-----------------------------------------------------------------------------------------------------------------
+#In the following example, relay 1 switches on during the climb to an altitude of 20km and switches off again during descending at an altitude of 25km.
+ASC_ON_Relais_1=20000						#Relay 1 switches on during climb at an altitude of 20000m
+ASC_OFF_Relais_1=0							#Relay 1 never switches off during the ascent if it has been switched on.
+DES_ON_Relais_1=0
+DES_OFF_Relais_1=25000					#Relay 1 switches off during the descent at an altitude of 25000m.
+
+ASC_ON_Relais_2=0
+ASC_OFF_Relais_2=0
+DES_ON_Relais_2=0
+DES_OFF_Relais_2=0
+
+ASC_ON_Relais_3=0
+ASC_OFF_Relais_3=0
+DES_ON_Relais_3=0
+DES_OFF_Relais_3=0
+
+ASC_ON_Relais_4=0
+ASC_OFF_Relais_4=0
+DES_ON_Relais_4=0
+DES_OFF_Relais_4=0
+
