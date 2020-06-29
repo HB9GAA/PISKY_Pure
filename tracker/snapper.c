@@ -40,8 +40,8 @@ int SSDVPacketsToSend(int Channel)
 
 int TimeTillImageCompleted(int Channel)
 	{
-	//Schneller Check für den " full"-Kanal - dafür senden wir nicht, also müssen wir eine große Anzahl zurücksenden, damit wir nicht sofort ein Foto machen
-	if (Channel == 4)
+	//Schneller Check für den "CAM0" oder "CAM1"-Kanal - dafür senden wir nicht, also müssen wir eine grossen Zeit-Wert zurücksenden, damit wir nicht sofort ein Foto machen
+	if ((Channel == CAM0_CHANNEL) || (Channel == CAM1_CHANNEL))
 		{
 		return 9999;
 		}
@@ -96,7 +96,7 @@ void FindBestImageAndRequestConversion(int Channel, int width, int height)
 			Config.Channels[Channel].SSDVFileNumber++;
 			sprintf(Config.Channels[Channel].ssdv_filename, "ssdv_%d_%d.bin", Channel, Config.Channels[Channel].SSDVFileNumber);
 			
-			if (Config.Camera == 4)
+			if ((Config.Camera == CAM0_CHANNEL) || (Config.Camera == CAM0_CHANNEL))
 				{
 				//Schreiben Sie einfach Parameter in eine Datei und überlassen Sie dem externen Skript den Rest
 				fprintf(fp, "%s\n%.6s\n%d\n%s\n%d\n%d\n%s\n", Config.Channels[Channel].PayloadID, Config.SSDVSettings, Config.Channels[Channel].SSDVFileNumber, LargestFileName, width, height, Config.Channels[Channel].ssdv_filename);
@@ -153,7 +153,7 @@ void *CameraLoop(void *some_void_ptr)
 
 	GPS = (struct TGPS *)some_void_ptr;
 	
-	for (Channel=0; Channel<5; Channel++)
+	for (Channel = 0; Channel < 6; Channel++)
 		{
 		Config.Channels[Channel].TimeSinceLastImage = Config.Channels[Channel].ImagePeriod;
 		Config.Channels[Channel].SSDVFileNumber = 0;
@@ -161,14 +161,14 @@ void *CameraLoop(void *some_void_ptr)
 
 	while (1)
 		{
-		for (Channel = 0; Channel < 5; Channel++)
+		for (Channel = 0; Channel < 6; Channel++)
 			{
 			if (Config.Channels[Channel].Enabled && (Config.Channels[Channel].ImagePackets > 0))
 				{
 				//Kanal, der SSDV verwendet
 				if (++Config.Channels[Channel].TimeSinceLastImage >= Config.Channels[Channel].ImagePeriod)
 					{
-					//Es ist Zeit, ein Foto auf diesem Kanal zu machen
+					//Es ist Zeit, ein Bild für diesen Kanal zu machen
 					Config.Channels[Channel].TimeSinceLastImage = 0;							//Zeit zurücksetzen
 					GetWidthAndHeightForChannel(GPS, Channel, &width, &height);		//Bildgrösse lesen
 					
@@ -185,7 +185,7 @@ void *CameraLoop(void *some_void_ptr)
 								char FileName[256];
 								int Mode;
 								
-								if (Channel == 4)
+								if ((Channel == CAM0_CHANNEL) || (Channel == CAM1_CHANNEL))
 									{
 									//Die Bilder in voller Grösse werden in einem mit Datum versehenen Ordner gespeichert.
 									fprintf(fp, "mkdir -p %s/$2\n", Config.Channels[Channel].SSDVFolder);
@@ -244,8 +244,7 @@ void *CameraLoop(void *some_void_ptr)
 					}
 				
 				// Kontrollieren, ob wir das "beste" Bild konvertieren müssen, bevor die aktuelle SSDV-Datei vollständig gesendet ist.
-
-				if (Channel < 4)
+				if (Channel < CAM0_CHANNEL)
 					{
 					// Bilder in voller Grösse ausschließen - bei diesen keine Konvertierung vornehmen.
 					if (TimeTillImageCompleted(Channel) < 25)

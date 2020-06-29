@@ -808,7 +808,7 @@ int devicetree(void)
 
 int BuildSentence(unsigned char *TxLine, int Channel, struct TGPS *GPS)
 	{	
-	static char *Channels[6] = {"RTTY", "APRS", "LORA0", "LORA1", "FULL", "PIPE"};
+	static char *Channels[6] = {"RTTY", "APRS", "LORA0", "LORA1", "CAM0", "CAM1"};
 	static char ExternalFields[100];
 	static FILE *ExternalFile=NULL;
 	static int FirstTime=1;

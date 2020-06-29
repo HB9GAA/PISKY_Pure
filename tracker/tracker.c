@@ -123,20 +123,27 @@ void LoadConfigFile(struct TConfig *Config)
 		Config->SSDVHigh = ReadInteger(fp, "high", -1, 0, 2000);
 		printf ("Image size changes at %dm\n", Config->SSDVHigh);
 	
-		// Set up full-size image parameters		
-		Config->Channels[FULL_CHANNEL].ImageWidthWhenLow = ReadInteger(fp, "full_low_width", -1, 0, 640);
-		Config->Channels[FULL_CHANNEL].ImageHeightWhenLow = ReadInteger(fp, "full_low_height", -1, 0, 480);
-		printf ("Full Low image size %d x %d pixels\n", Config->Channels[FULL_CHANNEL].ImageWidthWhenLow, Config->Channels[FULL_CHANNEL].ImageHeightWhenLow);
+		// Set up full-size image parameters for CAM0 and CAM1 are the same		
+		Config->Channels[CAM0_CHANNEL].ImageWidthWhenLow = ReadInteger(fp, "full_low_width", -1, 0, 640);
+		Config->Channels[CAM0_CHANNEL].ImageHeightWhenLow = ReadInteger(fp, "full_low_height", -1, 0, 480);
+		Config->Channels[CAM1_CHANNEL].ImageWidthWhenLow = ReadInteger(fp, "full_low_width", -1, 0, 640);
+		Config->Channels[CAM1_CHANNEL].ImageHeightWhenLow = ReadInteger(fp, "full_low_height", -1, 0, 480);
+		printf ("Full Low image size %d x %d pixels\n", Config->Channels[CAM0_CHANNEL].ImageWidthWhenLow, Config->Channels[CAM0_CHANNEL].ImageHeightWhenLow);
 		
-		Config->Channels[FULL_CHANNEL].ImageWidthWhenHigh = ReadInteger(fp, "full_high_width", -1, 0, 2592);
-		Config->Channels[FULL_CHANNEL].ImageHeightWhenHigh = ReadInteger(fp, "full_high_height", -1, 0, 1944);
-		printf ("Full High image size %d x %d pixels\n", Config->Channels[FULL_CHANNEL].ImageWidthWhenHigh, Config->Channels[FULL_CHANNEL].ImageHeightWhenHigh);
+		Config->Channels[CAM0_CHANNEL].ImageWidthWhenHigh = ReadInteger(fp, "full_high_width", -1, 0, 2592);
+		Config->Channels[CAM0_CHANNEL].ImageHeightWhenHigh = ReadInteger(fp, "full_high_height", -1, 0, 1944);
+		Config->Channels[CAM1_CHANNEL].ImageWidthWhenHigh = ReadInteger(fp, "full_high_width", -1, 0, 2592);
+		Config->Channels[CAM1_CHANNEL].ImageHeightWhenHigh = ReadInteger(fp, "full_high_height", -1, 0, 1944);
+		printf ("Full High image size %d x %d pixels\n", Config->Channels[CAM0_CHANNEL].ImageWidthWhenHigh, Config->Channels[CAM0_CHANNEL].ImageHeightWhenHigh);
 
-		Config->Channels[FULL_CHANNEL].ImagePeriod = ReadInteger(fp, "full_image_period", -1, 0, 60);
-		printf ("Full size: %d seconds between photographs\n", Config->Channels[FULL_CHANNEL].ImagePeriod);
+		Config->Channels[CAM0_CHANNEL].ImagePeriod = ReadInteger(fp, "full_image_period", -1, 0, 60);
+		Config->Channels[CAM1_CHANNEL].ImagePeriod = ReadInteger(fp, "full_image_period", -1, 0, 60);
+		printf ("Full size: %d seconds between photographs\n", Config->Channels[CAM0_CHANNEL].ImagePeriod);
 		
-		Config->Channels[FULL_CHANNEL].ImagePackets = Config->Channels[FULL_CHANNEL].ImagePeriod > 0;
-		Config->Channels[FULL_CHANNEL].Enabled = Config->Channels[FULL_CHANNEL].ImagePackets;
+		Config->Channels[CAM0_CHANNEL].ImagePackets = Config->Channels[CAM0_CHANNEL].ImagePeriod > 0;
+		Config->Channels[CAM0_CHANNEL].Enabled = Config->Channels[CAM0_CHANNEL].ImagePackets;
+		Config->Channels[CAM1_CHANNEL].ImagePackets = Config->Channels[CAM1_CHANNEL].ImagePeriod > 0;
+		Config->Channels[CAM1_CHANNEL].Enabled = Config->Channels[CAM1_CHANNEL].ImagePackets;
 		}
 
 	// GPS
@@ -340,7 +347,8 @@ int main(void)
 	*Config.Channels[1].SSDVFolder = '\0';										// No folder for APRS images
 	sprintf(Config.Channels[2].SSDVFolder, "%s/LORA0", SSDVFolder);
 	*Config.Channels[3].SSDVFolder = '\0';										// No folder for LORA1 images
-	sprintf(Config.Channels[4].SSDVFolder, "%s/FULL", SSDVFolder);
+	sprintf(Config.Channels[4].SSDVFolder, "%s/CAM0", SSDVFolder);
+	sprintf(Config.Channels[5].SSDVFolder, "%s/CAM1", SSDVFolder);
 		
 	if (Config.Camera)
 		{
@@ -350,7 +358,7 @@ int main(void)
 			mkdir(SSDVFolder, 0777);
 			}	
 	
-		for (i = 0; i < 5; i++)
+		for (i = 0; i < 6; i++)
 			{
 			if (*Config.Channels[i].SSDVFolder)
 				{
@@ -362,7 +370,7 @@ int main(void)
 			}
 
 		// Filenames for SSDV
-		for (i = 0; i < 5; i++)
+		for (i = 0; i < 6; i++)
 			{
 			sprintf(Config.Channels[i].take_pic, "take_pic_%d", i);
 			sprintf(Config.Channels[i].convert_file, "convert_%d", i);

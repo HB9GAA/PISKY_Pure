@@ -90,8 +90,8 @@ struct TRecentPacket
 // 0 is RTTY
 // 1 is APRS
 // 2 and 3 are for LoRa
-// 4 is a pretend channel for full-size images only
-// 5 is for piping data to an external program (e.g. for sending as SMS or directly connecting to habitat)
+// 4 is a pretend channel for full-size images CAM0
+// 5 is a pretend channel for full-size images CAM1
 struct TChannel
 	{
 	int Enabled;
@@ -131,7 +131,8 @@ struct TChannel
 
 
 #define LORA_CHANNEL 2		// 2 for LoRa CE0
-#define FULL_CHANNEL 4
+#define CAM0_CHANNEL 4		// 4 for FULL CAM0
+#define CAM1_CHANNEL 5		// 5 for FULL CAM1
 
 struct TConfig
 	{
@@ -171,7 +172,7 @@ struct TConfig
 	struct TLoRaDevice LoRaDevices[2];
 
 	// Radio channels
-	struct TChannel Channels[6];		// 0 is RTTY, 1 is APRS, 2/3 are LoRa, 4 is for full-size images, 5 is for piping to external software
+	struct TChannel Channels[6];		// 0 is RTTY, 1 is APRS, 2/3 are LoRa, 4 is for full-size images CAM0, 5 is for full-size images CAM1
 	
 	// GPS
 	char GPSSource[128];
