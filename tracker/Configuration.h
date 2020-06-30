@@ -21,6 +21,7 @@
 #include <sys/socket.h>
 #include <ifaddrs.h>
 #include <sys/statvfs.h>
+#include <stdbool.h>
 #include <pigpio.h> 
 #include <inttypes.h>
 #include <linux/i2c-dev.h>
