@@ -285,7 +285,7 @@ int main(void)
 	if (FileExists("/boot/clear.txt"))
 		{
 		// remove SSDV and other camera images, plus log files
-		printf("Entfernen von vorhandenen Fotodateien\n");
+		printf("Remove existing image files\n");
 		remove("gps.txt");
 		remove("telemetry.txt");
 		remove("/boot/clear.txt");

@@ -1,9 +1,22 @@
 #include "Configuration.h"
 
 uint8_t Relais[4] = {1, 4, 26, 29};			//Initial pin numbers of relays 0 to 3
-int temp = 0;
-int RelaisStatusTemp[4] = {1, 1, 1, 1};	
+int RelaisStatusTemp[4] = {0, 0, 0, 0};	
 	
+	
+void WriteRelaisLog(char *Buffer)
+	{
+	if (Config.EnableTelemetryLogging)
+		{
+		FILE *fp = NULL;
+		
+		if ((fp = fopen("relais.txt", "at")) != NULL)
+			{
+			fputs(Buffer, fp);
+			fclose(fp);
+			}
+		}
+	}
 
 void RelaisStatus(struct TGPS *GPS)
 	{
@@ -27,7 +40,7 @@ void *RelaisLoop(void *some_void_ptr)
 	for (int i = 0; i < 4; i++)
 		{
 		Config.RelaisConfig[i].RelaisPin = Relais[i];
-		pinMode (Config.RelaisConfig[1].RelaisPin, OUTPUT);
+		pinMode (Config.RelaisConfig[i].RelaisPin, OUTPUT);
 		}
 
 	RelaisStatus(GPS);
@@ -35,24 +48,34 @@ void *RelaisLoop(void *some_void_ptr)
 	while (1)
 		{
 		for (int i = 0; i < 4; i++)
-			{			
-			if(GPS->AscentRate > 0.1)
+			{
+			if(GPS->AscentRate > 0.02)
 				{
-				if((GPS->Altitude > Config.RelaisConfig[i].AscendON) && (GPS->Altitude < Config.RelaisConfig[i].AscendOFF))
+				if((GPS->Altitude > Config.RelaisConfig[i].AscendON) && ((Config.RelaisConfig[i].AscendON > 0) && (Config.RelaisConfig[i].AscendOFF == 0)))
 					RelaisStatusTemp[i] = 1;
+
+				else if((GPS->Altitude > Config.RelaisConfig[i].AscendON) && (GPS->Altitude < Config.RelaisConfig[i].AscendOFF))
+					RelaisStatusTemp[i] = 1;
+				
 				else
-					RelaisStatusTemp[i] = 0;
+					RelaisStatusTemp[i] = 0;					
 				}
-			else if(GPS->AscentRate < -0.1)
+				
+			else if(GPS->AscentRate < -0.02)
 				{
-				if((GPS->Altitude < Config.RelaisConfig[i].DescendON) && (GPS->Altitude > Config.RelaisConfig[i].DescendOFF))	
+				if((GPS->Altitude > Config.RelaisConfig[i].DescendOFF) && (Config.RelaisConfig[i].DescendOFF > 0) && (Config.RelaisConfig[i].DescendON == 0))
 					RelaisStatusTemp[i] = 1;
+
+				else if((GPS->Altitude < Config.RelaisConfig[i].DescendON) && (GPS->Altitude > Config.RelaisConfig[i].DescendOFF))	
+					RelaisStatusTemp[i] = 1;
+				
 				else
-					RelaisStatusTemp[i] = 0;
+					RelaisStatusTemp[i] = 0;				
 				}
+				
 			digitalWrite(Config.RelaisConfig[i].RelaisPin, RelaisStatusTemp[i]);
 			}
-		temp++;
+
 		RelaisStatus(GPS);		
 		usleep(10000000);
 		}
