@@ -4,7 +4,9 @@ uint8_t Relais[4] = {1, 4, 26, 29};			//Initial pin numbers of relays 0 to 3
 int RelaisStatusTemp[4] = {0, 0, 0, 0};	
 	
 	
-void WriteRelaisLog(char *Buffer)
+//
+//--------------------------------------------------------------------------------------------
+void WriteRelaisLog(struct TGPS *GPS)
 	{
 	if (Config.EnableTelemetryLogging)
 		{
@@ -12,12 +14,16 @@ void WriteRelaisLog(char *Buffer)
 		
 		if ((fp = fopen("relais.txt", "at")) != NULL)
 			{
-			fputs(Buffer, fp);
+			fprintf(fp, "%li, Alt = %dm,  Vspeed = %5.2fm/s, R0 = %i, R1 = %i, R2 = %i, R3 = %i \n", time(NULL), GPS->Altitude, GPS->AscentRate, RelaisStatusTemp[0], RelaisStatusTemp[1], RelaisStatusTemp[2], RelaisStatusTemp[3]);
+			//fputs(Buffer, fp);
 			fclose(fp);
 			}
 		}
 	}
 
+
+//
+//--------------------------------------------------------------------------------------------
 void RelaisStatus(struct TGPS *GPS)
 	{
 	printf("\nRelais-Status at GPS-Alt = %5dm and Vspeed = %5.2fm/s\n", GPS->Altitude, GPS->AscentRate);		
@@ -26,12 +32,19 @@ void RelaisStatus(struct TGPS *GPS)
 	for (int Rel = 0; Rel < 4; Rel++)
 		{
 		printf("|------|------|--------|--------|--------|--------|\n");		
-		printf("|  %d   |  %d   |  %5dm|  %5dm|  %5dm|  %5dm|\n", Rel, RelaisStatusTemp[Rel], Config.RelaisConfig[Rel].AscendON, Config.RelaisConfig[Rel].AscendOFF, Config.RelaisConfig[Rel].DescendON, Config.RelaisConfig[Rel].DescendOFF);
+		printf("|  %d   |  %d   |  %5dm|  %5dm|  %5dm|  %5dm|\n", 
+						Rel, RelaisStatusTemp[Rel], 
+						Config.RelaisConfig[Rel].AscendON,
+						Config.RelaisConfig[Rel].AscendOFF,
+						Config.RelaisConfig[Rel].DescendON,
+						Config.RelaisConfig[Rel].DescendOFF);
 		}
 	printf("|------|------|--------|--------|--------|--------|\n");	
 	}	
 
 
+//
+//--------------------------------------------------------------------------------------------
 void *RelaisLoop(void *some_void_ptr)
 	{
 	struct TGPS *GPS;
@@ -51,33 +64,39 @@ void *RelaisLoop(void *some_void_ptr)
 			{
 			if(GPS->AscentRate > 0.02)
 				{
-				if((GPS->Altitude > Config.RelaisConfig[i].AscendON) && ((Config.RelaisConfig[i].AscendON > 0) && (Config.RelaisConfig[i].AscendOFF == 0)))
-					RelaisStatusTemp[i] = 1;
+				if((Config.RelaisConfig[i].AscendON >= 0) || (Config.RelaisConfig[i].AscendOFF >= 0))
+					{
+					if((GPS->Altitude > Config.RelaisConfig[i].AscendON) && ((Config.RelaisConfig[i].AscendON >= 0) && (Config.RelaisConfig[i].AscendOFF < 0)))
+						RelaisStatusTemp[i] = 1;
 
-				else if((GPS->Altitude > Config.RelaisConfig[i].AscendON) && (GPS->Altitude < Config.RelaisConfig[i].AscendOFF))
-					RelaisStatusTemp[i] = 1;
-				
-				else
-					RelaisStatusTemp[i] = 0;					
+					else if((GPS->Altitude > Config.RelaisConfig[i].AscendON) && (GPS->Altitude < Config.RelaisConfig[i].AscendOFF))
+						RelaisStatusTemp[i] = 1;
+					
+					else
+						RelaisStatusTemp[i] = 0;					
+					}
 				}
-				
 			else if(GPS->AscentRate < -0.02)
 				{
-				if((GPS->Altitude > Config.RelaisConfig[i].DescendOFF) && (Config.RelaisConfig[i].DescendOFF > 0) && (Config.RelaisConfig[i].DescendON == 0))
-					RelaisStatusTemp[i] = 1;
+				if((Config.RelaisConfig[i].DescendON >= 0) || (Config.RelaisConfig[i].DescendOFF >= 0))
+					{
+					if((GPS->Altitude > Config.RelaisConfig[i].DescendOFF) && (Config.RelaisConfig[i].DescendOFF >= 0) && (Config.RelaisConfig[i].DescendON < 0))
+						RelaisStatusTemp[i] = 1;
 
-				else if((GPS->Altitude < Config.RelaisConfig[i].DescendON) && (GPS->Altitude > Config.RelaisConfig[i].DescendOFF))	
-					RelaisStatusTemp[i] = 1;
-				
-				else
-					RelaisStatusTemp[i] = 0;				
+					else if((GPS->Altitude < Config.RelaisConfig[i].DescendON) && (GPS->Altitude > Config.RelaisConfig[i].DescendOFF))	
+						RelaisStatusTemp[i] = 1;
+					
+					else
+						RelaisStatusTemp[i] = 0;				
+					}
 				}
 				
 			digitalWrite(Config.RelaisConfig[i].RelaisPin, RelaisStatusTemp[i]);
 			}
 
-		RelaisStatus(GPS);		
-		usleep(10000000);
+		RelaisStatus(GPS);
+		WriteRelaisLog(GPS);
+		sleep(Config.RelaisUpdateRate);
 		}
 
 	return 0;

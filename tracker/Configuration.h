@@ -159,10 +159,6 @@ extern void *LEDLoop(void *some_void_ptr);
 
 //
 //-----------------------------------------------------------------------------
-extern void *LogLoop(void *some_void_ptr);
-
-//
-//-----------------------------------------------------------------------------
 extern void *CameraLoop(void *some_void_ptr);
 
 //
@@ -327,7 +323,7 @@ struct TConfig
 	int EnableGPSLogging;
 	int EnableTelemetryLogging;
 	int EnableRelaisLogging;
-	int TelemetryFileUpdate;			//Period in seconds
+	int RelaisUpdateRate;					//Period in seconds
 																//added by HB9GAA
 	int UNIXformat;								//UNIXformat = 0 -> hh:mm:ss or UNIXformat = 1 -> UNIX-Time 
 	

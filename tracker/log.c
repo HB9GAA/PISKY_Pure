@@ -1,12 +1,14 @@
 #include "Configuration.h"
 
+//
+//--------------------------------------------------------------------------------------------
 void *LogLoop(void *some_void_ptr)
 	{
 	struct TGPS *GPS;
 	GPS = (struct TGPS *)some_void_ptr;
 	
 	while(1)
-		{		
+		{
 		FILE *fp;
 		
 		if ((fp = fopen("latest.txt", "wt")) != NULL)

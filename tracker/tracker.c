@@ -64,21 +64,21 @@ void LoadConfigFile(struct TConfig *Config)
 	Config->EnableRelaisLogging = ReadBooleanFromString(fp, "logging", "Relais");
 	if (Config->EnableRelaisLogging) printf("Relais Logging enabled\n");
 	
-	Config->TelemetryFileUpdate = ReadInteger(fp, "telemetry_file_update", -1, 0, 0);
-	if (Config->TelemetryFileUpdate > 0)
+	Config->RelaisUpdateRate = ReadInteger(fp, "relais_update_rate", -1, 0, 0);
+	if (Config->RelaisUpdateRate > 0)
 		{
-		printf("Telemetry file 'latest.txt' will be created every %d seconds\n", Config->TelemetryFileUpdate);
+		printf("Relais Status are stored every %ds in relais.txt (default 15s)\n", Config->RelaisUpdateRate);
 		}
 	
 	
 	for (int Rel = 0; Rel < 4; Rel++)
 		{
 		printf("Relais %d settings\n", Rel);
-		Config->RelaisConfig[Rel].AscendON = ReadInteger(fp, "ASC_ON_Relais", Rel, 0, 0);
-		Config->RelaisConfig[Rel].AscendOFF = ReadInteger(fp, "ASC_OFF_Relais", Rel, 0, 0);
+		Config->RelaisConfig[Rel].AscendON = ReadInteger(fp, "ASC_ON_Relais", Rel, 0, -1);
+		Config->RelaisConfig[Rel].AscendOFF = ReadInteger(fp, "ASC_OFF_Relais", Rel, 0, -1);
 		printf("      - ASC_ON = %5d m,\tASC_OFF = %5d m\n", Config->RelaisConfig[Rel].AscendON, Config->RelaisConfig[Rel].AscendOFF);
-		Config->RelaisConfig[Rel].DescendON = ReadInteger(fp, "DES_ON_Relais", Rel, 0, 0);
-		Config->RelaisConfig[Rel].DescendOFF = ReadInteger(fp, "DES_OFF_Relais", Rel, 0, 0);
+		Config->RelaisConfig[Rel].DescendON = ReadInteger(fp, "DES_ON_Relais", Rel, 0, -1);
+		Config->RelaisConfig[Rel].DescendOFF = ReadInteger(fp, "DES_OFF_Relais", Rel, 0, -1);
 		printf("      - DES_ON = %5d m,\tDES_OFF = %5d m\n", Config->RelaisConfig[Rel].DescendON, Config->RelaisConfig[Rel].DescendOFF);
 		}
 	
@@ -240,7 +240,7 @@ int main(void)
 	int i;
 	struct stat st = {0};
 	struct TGPS GPS;
-	pthread_t LoRaThread, GPSThread, RelaisThread, DS18B20Thread, CameraThread, LEDThread, LogThread;
+	pthread_t LoRaThread, GPSThread, RelaisThread, DS18B20Thread, CameraThread, LEDThread;
 	
 	if (prog_count("tracker") > 1)
 		{
@@ -398,15 +398,6 @@ int main(void)
 		{
 		fprintf(stderr, "Fehler bei der Erstellung des LED-Threads.\n");
 		return 1;
-		}
-
-	if (Config.TelemetryFileUpdate > 0)
-		{
-		if (pthread_create(&LogThread, NULL, LogLoop, &GPS))
-			{
-			fprintf(stderr, "Fehler beim Erstellen eines Log-Threads\n");
-			return 1;
-			}
 		}
 	
 	while (1)
