@@ -4,7 +4,8 @@ Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>
 Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
 
 This software is specially written for the GNSS/LoRa board and Raspberry Pi Zero W. <br>
-The GNSS/LoRa board can be purchased from <a href="https://shop.elcon.ch">ELcon-shop</a> <br>
+The GNSS/LoRa board EL-50 can be purchased from <a href="https://shop.elcon.ch">ELcon-shop</a> <br>
+The EL-51 Relay Board is now integrated in the software. The four optically isolated solid-state relays can be switched on and off height-controlled.<br>
 <g-emoji class="g-emoji" alias="exclamation" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2757.png">❗️</g-emoji> ***The software does not work for all other boards!***
 
 ## OS installation ##
