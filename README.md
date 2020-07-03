@@ -1,4 +1,4 @@
-# PISKY_Pure - is a small HAB Tracker software for the <br>GNSS/LoRa and Relay boards from ELcon Consulting & Engineering #
+# PISKY_Pure<br>- is a small HAB Tracker software for the <br>GNSS/LoRa and Relay boards from ELcon Consulting & Engineering #
 
 Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>). 
 Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
