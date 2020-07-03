@@ -42,25 +42,25 @@ LORA_Mode_0=1                   #LoRa transmission mode
 LORA_PPM_0=0.0                  #Adjustment of the LoRa transmission frequency,	ppm = 1'000'000*(f/fref-1)								
 
 
-#Switching thresholds of the relays in meters altitude, a Value = 0 indicates that the parameter is not considered
+#Switching thresholds of the relays in meters altitude, a Value = -1 or commented out indicates that the parameter is not considered 
 #-----------------------------------------------------------------------------------------------------------------
 #In the following example, relay 1 switches on during the climb to an altitude of 20km and switches off again during descending at an altitude of 25km.
 ASC_ON_Relais_0=20000           #Relay 1 switches on during climb at an altitude of 20000m
-ASC_OFF_Relais_0=0              #Relay 1 never switches off during the ascent if it has been switched on.
-DES_ON_Relais_0=0
+ASC_OFF_Relais_0=-1             #Relay 1 never switches off during the ascent if it has been switched on.
+DES_ON_Relais_0=-1
 DES_OFF_Relais_0=25000          #Relay 1 switches off during the descent at an altitude of 25000m.
 
-ASC_ON_Relais_1=0
-ASC_OFF_Relais_1=0
-DES_ON_Relais_1=0
-DES_OFF_Relais_1=0
+ASC_ON_Relais_1=-1
+ASC_OFF_Relais_1=-1
+DES_ON_Relais_1=-1
+DES_OFF_Relais_1=-1
 
-ASC_ON_Relais_2=0
-ASC_OFF_Relais_2=0
-DES_ON_Relais_2=0
-DES_OFF_Relais_2=0
+ASC_ON_Relais_2=-1
+ASC_OFF_Relais_2=-1
+DES_ON_Relais_2=-1
+DES_OFF_Relais_2=-1
 
-ASC_ON_Relais_3=0
-ASC_OFF_Relais_3=0
-DES_ON_Relais_3=0
-DES_OFF_Relais_3=0
+#ASC_ON_Relais_3=10000
+#ASC_OFF_Relais_3=20000
+#DES_ON_Relais_3=20000
+#DES_OFF_Relais_3=10000
