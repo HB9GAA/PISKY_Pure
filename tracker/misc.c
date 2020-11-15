@@ -615,7 +615,7 @@ int ReadCameraType(FILE *fp, char *keyword)
 		return 1;		// CSI (raspistill) eine Camera
 		}
 	
-	if (*Temp == '2')
+	else if (*Temp == '2')
 		{
 		return 2;		// CSI (raspistill) zwei Cameras (with dual CameraMultiplexer Board)
 		}
