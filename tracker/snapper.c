@@ -78,14 +78,14 @@ void FindBestImageAndRequestConversion(int Channel, int width, int height)
 			Config.Channels[Channel].SSDVFileNumber++;
 			sprintf(Config.Channels[Channel].ssdv_filename, "ssdv_%d_%d.bin", Channel, Config.Channels[Channel].SSDVFileNumber);
 			
-			if ((Config.Camera == CAM0_CHANNEL) || (Config.Camera == CAM0_CHANNEL))
+			if ((Config.Camera == CAM0_CHANNEL) || (Config.Camera == CAM1_CHANNEL))
 				{
 				//Schreiben Sie einfach Parameter in eine Datei und überlassen Sie dem externen Skript den Rest
 				fprintf(fp, "%s\n%.6s\n%d\n%s\n%d\n%d\n%s\n", Config.Channels[Channel].PayloadID, Config.SSDVSettings, Config.Channels[Channel].SSDVFileNumber, LargestFileName, width, height, Config.Channels[Channel].ssdv_filename);
 				}
 			else
 				{
-				//Externes Skript für ImageMagick etc.
+				//Externes Skript für ImageMagic etc.
 				fprintf(fp, "rm -f ssdv.jpg\n");
 				fprintf(fp, "if [ -e process_image ]\n");
 				fprintf(fp, "then\n");
@@ -135,7 +135,7 @@ void *CameraLoop(void *some_void_ptr)
 
 	GPS = (struct TGPS *)some_void_ptr;
 	
-	for (Channel = 0; Channel < 6; Channel++)
+	for (Channel = 0; Channel < 5; Channel++)
 		{
 		Config.Channels[Channel].TimeSinceLastImage = Config.Channels[Channel].ImagePeriod;
 		Config.Channels[Channel].SSDVFileNumber = 0;
@@ -143,7 +143,7 @@ void *CameraLoop(void *some_void_ptr)
 
 	while (1)
 		{
-		for (Channel = 0; Channel < 6; Channel++)
+		for (Channel = 0; Channel < 5; Channel++)
 			{
 			if (Config.Channels[Channel].Enabled && (Config.Channels[Channel].ImagePackets > 0))
 				{
@@ -165,58 +165,48 @@ void *CameraLoop(void *some_void_ptr)
 							if ((fp = fopen(filename, "wt")) != NULL)
 								{
 								char FileName[256];
-								int Mode;
 								
-								if ((Channel == CAM0_CHANNEL) || (Channel == CAM1_CHANNEL))
+								
+								if (Channel == CAM0_CHANNEL)
 									{
-									//Die Bilder in voller Grösse werden in einem mit Datum versehenen Ordner gespeichert.
-									fprintf(fp, "mkdir -p %s/$2\n", Config.Channels[Channel].SSDVFolder);
-
-									sprintf(FileName, "%s/$2/$1.JPG", Config.Channels[Channel].SSDVFolder);				
-
-									if ((width == 0) || (height == 0))
+									fprintf(fp, "gpio -g mode 17 out\n");					//GPIO17 -> Kamera-Umschaltung ist ein Ausgang
+									
+									for (int i = CAM0_CHANNEL; i <= CAM1_CHANNEL; i++)
 										{
-										fprintf(fp, "raspistill -st -t 3000 -ex auto -mm matrix %s -o %s\n", Config.CameraSettings, FileName);
-										}
-									else
-										{
-										fprintf(fp, "raspistill -st -w %d -h %d -t 3000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
+										Channel = i;
+										
+										if (i == CAM0_CHANNEL)
+											fprintf(fp, "gpio -g write 17 0\n");					//GPIO17 -> Kamera 0 aktivieren
+										else
+											fprintf(fp, "gpio -g write 17 1\n");					//GPIO17 -> Kamera 0 aktivieren
+										
+										fprintf(fp, "mkdir -p %s/$2\n", Config.Channels[Channel].SSDVFolder);	//Kamara-Directory erstellen 
+										sprintf(FileName, "%s/$2/$1.JPG", Config.Channels[Channel].SSDVFolder);	//und Filename definieren				
+
+										if ((width == 0) || (height == 0))						//Bild aufnehmen und ev. die Bildgrösse definieren
+											{
+											fprintf(fp, "raspistill -st -t 2000 -ex auto -mm matrix %s -o %s\n", Config.CameraSettings, FileName);
+											}
+										else
+											{
+											fprintf(fp, "raspistill -st -w %d -h %d -t 2000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
+											}			
+										fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLatitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLatitudeRef N' %s\n", (int)(100000*GPS->Latitude), FileName);
+										fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLongitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLongitudeRef E' %s\n", (int)(100000*GPS->Longitude), FileName);
+										fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSAltitude %d/1' %s\n", (int) (GPS->Altitude), FileName);
+										fprintf(fp, "exiv2 -M 'set  Exif.Photo.UserComment AscentRate = %.1lf m/s' %s\n", GPS->AscentRate, FileName);
 										}
 									}
 								else
 									{
 									sprintf(FileName, "%s/$1.JPG", Config.Channels[Channel].SSDVFolder);
-									fprintf(fp, "raspistill -st -w %d -h %d -t 3000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
+									fprintf(fp, "raspistill -st -w %d -h %d -t 2000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
+									fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLatitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLatitudeRef N' %s\n", (int)(100000*GPS->Latitude), FileName);
+									fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLongitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLongitudeRef E' %s\n", (int)(100000*GPS->Longitude), FileName);
+									fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSAltitude %d/1' %s\n", (int) (GPS->Altitude), FileName);
+									fprintf(fp, "exiv2 -M 'set  Exif.Photo.UserComment AscentRate = %.1lf m/s' %s\n", GPS->AscentRate, FileName);
 									}
-								
-								// Telemetrie als Kommentar in JPEG-Datei einfügen
-								// Alt=34156;Lat=51.4321;Long=-2.4321;UTC=10:11:12;Ascent=5.1;Mode=1
-								if (GPS->AscentRate >= 2)
-									{
-									Mode = 1;
-									}
-								else if (GPS->AscentRate <= -2)
-									{
-									Mode = 2;
-									}
-								else if (GPS->Altitude >= Config.SSDVHigh)
-									{
-									Mode = 1;
-									}
-								else
-									{
-									Mode = 0;
-									}
-								fprintf(fp, "exiv2 -c'Alt=%" PRId32 ";MaxAlt=%" PRId32 ";Lat=%7.5lf;Long=%7.5lf;UTC=%02d:%02d:%02d;Ascent=%.1lf;Mode=%d' %s\n",
-													GPS->Altitude,
-													GPS->MaximumAltitude,
-													GPS->Latitude,
-													GPS->Longitude,
-													GPS->Hours, GPS->Minutes, GPS->Seconds,
-													GPS->AscentRate,
-													Mode,
-													FileName);
-		
+
 								fclose(fp);
 								chmod(filename, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH); 
 								Config.Channels[Channel].ImagesRequested++;
@@ -228,13 +218,13 @@ void *CameraLoop(void *some_void_ptr)
 				// Kontrollieren, ob wir das "beste" Bild konvertieren müssen, bevor die aktuelle SSDV-Datei vollständig gesendet ist.
 				if (Channel < CAM0_CHANNEL)
 					{
-					// Bilder in voller Grösse ausschließen - bei diesen keine Konvertierung vornehmen.
+					// Bilder in voller Grösse ausschliessen - bei diesen keine Konvertierung vornehmen.
 					if (TimeTillImageCompleted(Channel) < 25)
 						{
 						// Benötigen konvertierte Datei bald
 						if (!FileExists(Config.Channels[Channel].convert_file) && !FileExists(Config.Channels[Channel].ssdv_done))
 							{
-							// diese holen, falls das Skript die Auflösung großer Bilder (z.B. von einer SLR- oder Kompaktkamera) ändern muss.
+							// diese holen, falls das Skript die Auflösung grosser Bilder (z.B. von einer SLR- oder Kompaktkamera) ändern muss.
 							GetWidthAndHeightForChannel(GPS, Channel, &width, &height);
 							
 							// Zu verwendendes Bild finden, dann die Konvertierung anfordern (extern durchgeführt)
@@ -243,7 +233,7 @@ void *CameraLoop(void *some_void_ptr)
 						}
 					}
 				}
-			}	
+			}
 		sleep(1);
 		}
 	}
