@@ -4,7 +4,7 @@ Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>
 Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
 
 This software is specially written for the GNSS/LoRa board and Raspberry Pi Zero W. <br>
-The GNSS/LoRa board EL-50 can be purchased from <a href="https://shop.elcon.ch">ELcon-shop</a> <br>
+The GNSS/LoRa board EL-50 contains an ublox GNSS receiver and the LoRa transceiver for the 70cm band.<br>
 The EL-51 Relay Board is now integrated in the software. The four optically isolated solid-state relays can be switched on and off height-controlled.<br>
 The EL-52 dual camera multiplexer board is supported by the software. In the configuration it can be defined whether one or two cameras are installed.<br>
 In addition, the current GNSS data, longitude, latitude and altitude are stored in the Exchangeable Image File in all acquired images.<br>
