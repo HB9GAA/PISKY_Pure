@@ -1,4 +1,4 @@
-# PISKY_Pure - is a small HAB Tracker software for the <br>GNSS/LoRa and Relay boards from ELcon Consulting & Engineering #
+# PISKY_Pure - is a small HAB Tracker software for the <br>GNSS/LoRa, dual Camera-Multiplexer and Relay boards from ELcon Consulting & Engineering #
 
 Created by Roland Elmiger (<a href="mainlto:hb9gaa@arrl.net">hb9gaa@arrl.net</a>). 
 Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
@@ -6,6 +6,8 @@ Some code sequences were taken from the "Pi in the Sky" by Dave Ackerman.
 This software is specially written for the GNSS/LoRa board and Raspberry Pi Zero W. <br>
 The GNSS/LoRa board EL-50 can be purchased from <a href="https://shop.elcon.ch">ELcon-shop</a> <br>
 The EL-51 Relay Board is now integrated in the software. The four optically isolated solid-state relays can be switched on and off height-controlled.<br>
+The EL-52 dual camera multiplexer board is supported by the software. In the configuration it can be defined whether one or two cameras are installed.<br>
+In addition, the current GNSS data, longitude, latitude and altitude are stored in the Exchangeable Image File in all acquired images.<br>
 <g-emoji class="g-emoji" alias="exclamation" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2757.png">❗️</g-emoji> ***The software does not work for all other boards!***
 
 ## OS installation ##

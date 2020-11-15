@@ -69,12 +69,12 @@ cd
 
 echo -e "\nInstalling EXIV2"
 echo      "----------------"
-sudo apt-get install exiv2
+sudo apt-get install exiv2 -y
 cd
 
 echo -e "\nInstalling I2C-Tools"
 echo      "--------------------"
-sudo apt-get install python-smbus i2c-tools
+sudo apt-get install python-smbus i2c-tools -y
 cd
 
 echo -e "\nInstalling PISKY_Pure Firmware"
