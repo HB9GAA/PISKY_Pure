@@ -67,6 +67,16 @@ echo      "---------------"
 sudo apt-get install ssdv
 cd
 
+echo -e "\nInstalling EXIV2"
+echo      "----------------"
+sudo apt-get install exiv2
+cd
+
+echo -e "\nInstalling I2C-Tools"
+echo      "--------------------"
+sudo apt-get install python-smbus i2c-tools
+cd
+
 echo -e "\nInstalling PISKY_Pure Firmware"
 echo      "---------------------------------"
 cd ~/PISKY_Pure
