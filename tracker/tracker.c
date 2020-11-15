@@ -35,8 +35,6 @@ void LoadConfigFile(struct TConfig *Config)
 		exit(1);
 		}
 
- 	//added by HB9GAA
-	//-----------------------------------------
 	ReadBoolean(fp, "UNIXformat", -1, 0, &(Config->UNIXformat));			//UNIXformat = 0 -> hh:mm:ss or UNIXformat = 1 -> UNIX-Time 
 	if (Config->UNIXformat)
 			{
@@ -46,7 +44,6 @@ void LoadConfigFile(struct TConfig *Config)
 			{
 			printf("Format: Default\n");
 			}
-	//-----------------------------------------
 
 	ReadBoolean(fp, "disable_monitor", -1, 0, &(Config->DisableMonitor));
 	if (Config->DisableMonitor)
@@ -70,7 +67,6 @@ void LoadConfigFile(struct TConfig *Config)
 		printf("Relais Status are stored every %ds in relais.txt (default 15s)\n", Config->RelaisUpdateRate);
 		}
 	
-	
 	for (int Rel = 0; Rel < 4; Rel++)
 		{
 		printf("Relais %d settings\n", Rel);
@@ -89,8 +85,8 @@ void LoadConfigFile(struct TConfig *Config)
 		printf("External DS18B20 Enabled\n");
 		}
 	
-	Config->Camera = ReadCameraType(fp, "camera");
-	printf ("Camera (%s) %s\n", CameraTypes[Config->Camera], Config->Camera ? "Enabled" : "Disabled");
+	Config->Camera = ReadCameraType(fp, "camera");			//0 = no camera, 1 = one camera, 2 = two cameras (requires the dual camera multiplexer board)
+	printf ("Camera (%s) %s\n", CameraTypes[Config->Camera], Config->Camera ? "Enabled" : "no Camera");
 	
 	if (Config->Camera)
 		{
@@ -244,14 +240,14 @@ int main(void)
 	
 	if (prog_count("tracker") > 1)
 		{
-		printf("\nDas Tracker-Programm läuft bereits!\n");
-		printf("Es wird automatisch mit dem Kameraskript gestartet, wenn der Pi bootet.\n\n");
+		printf("\nThe tracker program is already running!\n");
+		printf("It is automatically started with the camera script when the Pi boots.\n\n");
 		printf("If you just want the tracker software to run, it already is,\n");
 		printf("and its output can be viewed on a monitor attached to a Pi video socket.\n\n");
-		printf("Wenn Sie die Tracker-Ausgabe über ssh ansehen möchten,\n");
-		printf("dann stoppen Sie das Programm mit dem Befehls:\n");
+		printf("If you want to view the tracker output via ssh,\n");
+		printf("then stop the program with the command:\n");
 		printf("	sudo killall tracker\n\n");
-		printf("und starten es manuell mit\n");
+		printf("and start it manually with\n");
 		printf("	sudo ./tracker\n\n");
 		exit(1);
 		}
@@ -265,7 +261,7 @@ int main(void)
 		{
 		if ((Config.BoardType == 4) || (Config.BoardType == 3))
 			{
-			printf("RPi Zero W oder RPi Zero\n");
+			printf("RPi Zero W or RPi Zero\n");
 			}
 				
 		Config.LED_OK = 25;
@@ -288,6 +284,7 @@ int main(void)
 		printf("Remove existing image files\n");
 		remove("gps.txt");
 		remove("telemetry.txt");
+		remove("relais.txt");
 		remove("/boot/clear.txt");
 		system("rm -rf /home/pi/PISKY_Pure/tracker/images/*");
 		}
@@ -300,13 +297,13 @@ int main(void)
 	// Set up I/O
 	if (wiringPiSetup() == -1)
 		{
-		printf("Kann WiringPi nicht initialisieren\n");
+		printf("Cannot initialize WiringPi\n");
 		exit (1);
 		}
 	
 	if (gpioInitialise() < 0)
 		{
-		printf("Pigpio-Initialisierung fehlgeschlagen.\n");
+		printf("Pigpio initialization failed.\n");
 		exit (1);
 		}	
 		
@@ -329,14 +326,14 @@ int main(void)
 	if (Config.Camera)
 		{
 		// Create SSDV Folders
-		if (stat(SSDVFolder, &st) == -1)
+		if(stat(SSDVFolder, &st) == -1)
 			{
 			mkdir(SSDVFolder, 0777);
 			}	
 	
-		for (i = 0; i < 6; i++)
+		for(i = 0; i < 6; i++)
 			{
-			if (*Config.Channels[i].SSDVFolder)
+			if(*Config.Channels[i].SSDVFolder)
 				{
 				if (stat(Config.Channels[i].SSDVFolder, &st) == -1)
 					{
@@ -346,7 +343,7 @@ int main(void)
 			}
 
 		// Filenames for SSDV
-		for (i = 0; i < 6; i++)
+		for(i = 0; i < 6; i++)
 			{
 			sprintf(Config.Channels[i].take_pic, "take_pic_%d", i);
 			sprintf(Config.Channels[i].convert_file, "convert_%d", i);
@@ -361,7 +358,7 @@ int main(void)
 	
 	if (pthread_create(&GPSThread, NULL, GPSLoop, &GPS))
 		{
-		fprintf(stderr, "Fehler beim Erstellen eines GPS-Threads\n");
+		fprintf(stderr, "Error when creating a GPS thread\n");
 		return 1;
 		}
 	
@@ -369,19 +366,19 @@ int main(void)
 		{
 		if (pthread_create(&LoRaThread, NULL, LoRaLoop, &GPS))
 			{
-			fprintf(stderr, "Fehler beim Erstellen eines LoRa-Threads\n");
+			fprintf(stderr, "Error when creating a LoRa thread\n");
 			}
 		}
 	
 	if (pthread_create(&RelaisThread, NULL, RelaisLoop, &GPS))
 		{
-		fprintf(stderr, "Fehler beim Erstellen des Relais-Threads\n");
+		fprintf(stderr, "Error while creating the relay thread\n");
 		return 1;
 		}
 		
 	if (pthread_create(&DS18B20Thread, NULL, DS18B20Loop, &GPS))
 		{
-		fprintf(stderr, "Fehler beim Erstellen des DS18B20s-Threads\n");
+		fprintf(stderr, "Error creating the DS18B20s thread\n");
 		return 1;
 		}
 
@@ -389,14 +386,14 @@ int main(void)
 		{
 		if (pthread_create(&CameraThread, NULL, CameraLoop, &GPS))
 			{
-			fprintf(stderr, "Fehler beim Erstellen des Kamera-Threads.\n");
+			fprintf(stderr, "Error while creating the camera thread.\n");
 			return 1;
 			}
 		}
 
 	if (pthread_create(&LEDThread, NULL, LEDLoop, &GPS))
 		{
-		fprintf(stderr, "Fehler bei der Erstellung des LED-Threads.\n");
+		fprintf(stderr, "Error when creating the LED thread.\n");
 		return 1;
 		}
 	

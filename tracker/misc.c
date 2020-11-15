@@ -610,26 +610,16 @@ int ReadCameraType(FILE *fp, char *keyword)
 	
 	ReadString(fp, keyword, -1, Temp, sizeof(Temp), 0);
 
-	if ((*Temp == '1') || (*Temp == 'Y') || (*Temp == 'y') || (*Temp == 't') || (*Temp == 'T'))
+	if ((*Temp == '1')
 		{
-		return 1;		// CSI (raspistill) Camera
+		return 1;		// CSI (raspistill) eine Camera
 		}
 	
-	if ((*Temp == 'F') || (*Temp == 'f') || (*Temp == 'U') || (*Temp == 'u'))
+	if ((*Temp == '2')
 		{
-		return 2;		// USB (fswebcam) Camera
+		return 2;		// CSI (raspistill) zwei Cameras (with dual CameraMultiplexer Board)
 		}
-	
-	if ((*Temp == 'G') || (*Temp == 'g'))
-		{
-		return 3;		// GPHOTO2
-		}
-	
-	if ((*Temp == 'P') || (*Temp == 'p'))
-		{
-		return 4;		// Python script e.g. for GoPro
-		}
-	
+		
 	return 0;
 	}
 

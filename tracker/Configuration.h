@@ -255,9 +255,10 @@ struct TRecentPacket
 	};
 
 // Structure for all possible radio devices
-// 0 is RTTY
-// 1 is APRS
-// 2 and 3 are for LoRa
+// 0 not used
+// 1 not used
+// 2 is for LoRa images LORA0
+// 3 not used
 // 4 is a pretend channel for full-size images CAM0
 // 5 is a pretend channel for full-size images CAM1
 struct TChannel
@@ -325,7 +326,8 @@ struct TConfig
 	int EnableRelaisLogging;
 	int RelaisUpdateRate;					//Period in seconds
 																//added by HB9GAA
-	int UNIXformat;								//UNIXformat = 0 -> hh:mm:ss or UNIXformat = 1 -> UNIX-Time 
+	int UNIXformat;								//UNIXformat = 0 -> hh:mm:ss or UNIXformat = 1 -> UNIX-Time
+	int RTC;											//RCT Unit 0 -> not available, 1 -> is implemented
 	
 	// LEDs
 	int LED_OK;
@@ -341,7 +343,7 @@ struct TConfig
 	struct TLoRaDevice LoRaDevices[2];
 
 	// Radio channels
-	struct TChannel Channels[6];	//2/3 are LoRa, 4 is full-size images CAM0, 5 is full-size images CAM1
+	struct TChannel Channels[6];	//2 is LoRa, 4 is full-size images CAM0, 5 is full-size images CAM1
 	
 	// GPS
 	char GPSSource[128];
@@ -353,7 +355,6 @@ struct TConfig
 	
 	// Relais control
 	struct TRelaisConfig RelaisConfig[4];
-
 	};
 
 

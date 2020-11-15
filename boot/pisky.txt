@@ -3,7 +3,7 @@ disable_monitor=Y
 
 #Camera parameters
 #-----------------------------------------------------------------------------------------------------------------
-camera=Y                        #Is a camera used? (Y or N), if not, the following camera parameters are obsolete
+camera=2                        #Is a camera used? (0, 1 or 2), if not, the following camera parameters are obsolete
 
 high=100                        #Switching height in meters for the camera resolution (low <-> high)
 
@@ -31,6 +31,7 @@ logging=GPS,Telemetry,Relais    #which data should be logged on the payload? (GP
 #Time format parameters
 #-----------------------------------------------------------------------------------------------------------------
 UNIXformat=1                    #If UNIX_time is activated, the UNIX time is used instead of the restricted time format hh:mm:ss
+RTC=0                           #is an RTC module installed, e.g. on the dual camera multiplexer board?
 
 
 #LoRa parameters
