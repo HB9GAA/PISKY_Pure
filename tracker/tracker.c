@@ -25,7 +25,7 @@ char *SSDVFolder="/home/pi/PISKY_Pure/tracker/images";
 
 void LoadConfigFile(struct TConfig *Config)
 	{
-	const char* CameraTypes[5] = {"None", "CSI Pi Camera - raspistill", "USB webcam - fswebcam", "USB camera - gphoto2", "Python Script"};
+	const char* CameraTypes[6] = {"None", "one CSI Pi Camera - raspistill", "two CSI Pi Camera - raspistill", "USB webcam - fswebcam", "USB camera - gphoto2", "Python Script"};
 	FILE *fp;
 	char *filename = "/boot/pisky.txt";
 
@@ -88,7 +88,7 @@ void LoadConfigFile(struct TConfig *Config)
 	Config->Camera = ReadCameraType(fp, "camera");			//0 = no camera, 1 = one camera, 2 = two cameras (requires the dual camera multiplexer board)
 	printf ("Camera (%s) %s\n", CameraTypes[Config->Camera], Config->Camera ? "Enabled" : "no Camera");
 	
-	if (Config->Camera)
+	if (Config->Camera == 1 || Config->Camera == 2 )
 		{
 		ReadString(fp, "camera_settings", -1, Config->CameraSettings, sizeof(Config->CameraSettings), 0);
 		if (*Config->CameraSettings)
