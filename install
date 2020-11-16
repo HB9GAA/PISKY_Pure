@@ -90,8 +90,8 @@ case $choice in
       sudo nano /boot/pisky.txt;; 
 esac
 
-echo -e "\nClean up"
-echo      "--------"
+echo -e "\nClean up and Reboot"
+echo      "-------------------"
 cd 
 sudo mv PIGPIO-master .PIGPIO-master
 sudo rm -r master.zip
