@@ -89,3 +89,16 @@ case $choice in
   *) 
       sudo nano /boot/pisky.txt;; 
 esac
+
+echo -e "\nClean up"
+echo      "--------"
+cd 
+sudo rm -r PIGPIO-master
+sudo rm -r master.zip
+cd ~/PISKY_Pure
+sudo rm -r boot
+sudo rm -r misc
+cd ~/PISKY_Pure/tracker
+sudo rm -r *.o
+sudo rm -r *.h
+sudo rm -r *.c
