@@ -200,7 +200,7 @@ void *CameraLoop(void *some_void_ptr)
 								else
 									{
 									fprintf(fp, "mkdir -p %s/$2\n", Config.Channels[Channel].SSDVFolder);	//Kamara-Directory erstellen
-									sprintf(FileName, "%s/$2/$1.JPG", Config.Channels[Channel].SSDVFolder);//und Filename definieren
+									sprintf(FileName, "%s/$1.JPG", Config.Channels[Channel].SSDVFolder);//und Filename definieren
 									fprintf(fp, "raspistill -st -w %d -h %d -t 2000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
 									fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLatitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLatitudeRef N' %s\n", (int)(100000*GPS->Latitude), FileName);
 									fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLongitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLongitudeRef E' %s\n", (int)(100000*GPS->Longitude), FileName);

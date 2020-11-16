@@ -61,10 +61,10 @@ void LoadConfigFile(struct TConfig *Config)
 	Config->EnableRelaisLogging = ReadBooleanFromString(fp, "logging", "Relais");
 	if (Config->EnableRelaisLogging) printf("Relais Logging enabled\n");
 	
-	Config->RelaisUpdateRate = ReadInteger(fp, "relais_update_rate", -1, 0, 15);
+	Config->RelaisUpdateRate = ReadInteger(fp, "relais_update_rate", -1, 0, 120);
 	if (Config->RelaisUpdateRate > 0)
 		{
-		printf("Relais Status are stored every %ds in relais.txt (default 15s)\n", Config->RelaisUpdateRate);
+		printf("Relais Status are stored every %ds in relais.txt (default 120s)\n", Config->RelaisUpdateRate);
 		}
 	
 	for (int Rel = 0; Rel < 4; Rel++)
