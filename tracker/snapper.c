@@ -132,6 +132,7 @@ void *CameraLoop(void *some_void_ptr)
 	char filename[100];
 	int Channel;
 	FILE *fp;
+	static bool SSDV_Cam_Number = true;
 
 	GPS = (struct TGPS *)some_void_ptr;
 	
@@ -176,14 +177,14 @@ void *CameraLoop(void *some_void_ptr)
 										Channel = i;
 										
 										if (i == CAM0_CHANNEL)
-											fprintf(fp, "gpio -g write 17 0\n");					//GPIO17 -> Kamera 0 aktivieren
+											fprintf(fp, "gpio -g write 17 0\n");			//GPIO17 -> Kamera 0 aktivieren
 										else
-											fprintf(fp, "gpio -g write 17 1\n");					//GPIO17 -> Kamera 0 aktivieren
+											fprintf(fp, "gpio -g write 17 1\n");			//GPIO17 -> Kamera 1 aktivieren
 										
 										fprintf(fp, "mkdir -p %s/$2\n", Config.Channels[Channel].SSDVFolder);	//Kamara-Directory erstellen
 										sprintf(FileName, "%s/$2/$1.JPG", Config.Channels[Channel].SSDVFolder);	//und Filename definieren
 
-										if ((width == 0) || (height == 0))						//Bild aufnehmen und ev. die Bildgrösse definieren
+										if ((width == 0) || (height == 0))					//Bild aufnehmen und ev. die Bildgrösse definieren
 											{
 											fprintf(fp, "raspistill -st -t 2000 -ex auto -mm matrix %s -o %s\n", Config.CameraSettings, FileName);
 											}
@@ -199,8 +200,19 @@ void *CameraLoop(void *some_void_ptr)
 									}
 								else
 									{
+									if(SSDV_Cam_Number)
+										{
+										fprintf(fp, "gpio -g write 17 0\n");									//GPIO17 -> Kamera 0 aktivieren, alternierend
+										SSDV_Cam_Number = false;
+										}
+									else
+										{
+										fprintf(fp, "gpio -g write 17 1\n");									//GPIO17 -> Kamera 1 aktivieren, alternierend
+										SSDV_Cam_Number = true;
+										}
+										
 									fprintf(fp, "mkdir -p %s/$2\n", Config.Channels[Channel].SSDVFolder);	//Kamara-Directory erstellen
-									sprintf(FileName, "%s/$1.JPG", Config.Channels[Channel].SSDVFolder);//und Filename definieren
+									sprintf(FileName, "%s/$1.JPG", Config.Channels[Channel].SSDVFolder);	//und Filename definieren
 									fprintf(fp, "raspistill -st -w %d -h %d -t 2000 -ex auto -mm matrix %s -o %s\n", width, height, Config.CameraSettings, FileName);
 									fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLatitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLatitudeRef N' %s\n", (int)(100000*GPS->Latitude), FileName);
 									fprintf(fp, "exiv2 -M 'set  Exif.GPSInfo.GPSLongitude %i/100000 0/1 0/1' -M 'set Exif.GPSInfo.GPSLongitudeRef E' %s\n", (int)(100000*GPS->Longitude), FileName);
